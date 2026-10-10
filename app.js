@@ -480,11 +480,15 @@ function autoSay() {
   say(p.mode === 'intro' ? introLine(p) : p.prompt);
 }
 // After a country or its flag is found, the next of its fun facts, taking turns so each visit brings a new one.
+// States and seas too. A country and its flag share their facts.
 function nextFact(p) {
-  const list = (p.place === 'country' || p.place === 'flag') && state.funFacts && p.kind !== 'check' ? FUN_FACTS[p.id] : null;
+  if (!state.funFacts || p.kind === 'check') return '';
+  const [list, key] = p.place === 'country' || p.place === 'flag' ? [FUN_FACTS[p.id], p.id]
+    : p.place === 'state' ? [STATE_FACTS[p.id], 'state:' + p.id]
+    : p.place === 'sea' ? [SEA_FACTS[p.id], 'sea:' + p.id] : [];
   if (!list?.length) return '';
-  const i = (state.factAt[p.id] || 0) % list.length;
-  state.factAt[p.id] = i + 1;
+  const i = (state.factAt[key] || 0) % list.length;
+  state.factAt[key] = i + 1;
   return list[i];
 }
 const didYou = p => p.funFact ? ` Did you know? ${p.funFact}` : '';
@@ -811,7 +815,7 @@ function renderParent() {
     <div class="row-btns"><span>Questions per round</span><div class="seg">${[5, 10, 15].map(n => `<button data-act="per" data-n="${n}" aria-pressed="${state.perSession === n}">${n}</button>`).join('')}</div></div>
     <div class="row-btns"><span>“Say it” turns</span><div class="seg"><button data-act="sayit" data-v="1" aria-pressed="${state.sayIt}">On</button><button data-act="sayit" data-v="0" aria-pressed="${!state.sayIt}">Off</button></div></div>
     <div class="row-btns"><span>Fun facts after answers</span><div class="seg"><button data-act="funfacts" data-v="1" aria-pressed="${state.funFacts}">On</button><button data-act="funfacts" data-v="0" aria-pressed="${!state.funFacts}">Off</button></div></div>
-    <p class="note">After a country or its flag is found, the voice adds “Did you know?” and one of three facts about it (history, records and unusual things), a different one each time. Facts are in facts.js.</p>
+    <p class="note">After a country, flag, state or sea is found, the voice adds “Did you know?” and one of three facts about it (history, stories, records and unusual things), a different one each time. Facts are in facts.js.</p>
     <p class="note">For places already known, about 1 in 3 questions lights up the place for ${esc(N())} to name out loud, then tap to hear it and say whether it matched.</p>
     <div class="row-btns"><span>Speaking speed</span><div class="seg"><button data-act="speed" data-v="normal" aria-pressed="${state.speed !== 'slow'}">Normal</button><button data-act="speed" data-v="slow" aria-pressed="${state.speed === 'slow'}">Slower</button></div><span class="note">The 🐢 button always says it very slowly.</span></div>
     ${voiceNote}

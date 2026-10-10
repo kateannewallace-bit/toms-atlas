@@ -1,5 +1,5 @@
 // Offline support. Bump VERSION whenever app files change so devices pick up the update.
-const VERSION = 'atlas-v3';
+const VERSION = 'atlas-v4';
 const SHELL = [
   './', 'index.html', 'styles.css', 'maps.js', 'places.js', 'facts.js', 'app.js', 'config.js', 'manifest.webmanifest',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png',

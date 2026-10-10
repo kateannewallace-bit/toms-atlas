@@ -328,3 +328,441 @@ const FUN_FACTS = {
     'Bran Castle, sometimes called Dracula\'s Castle, sits high on a rocky hill.',
   ],
 };
+
+// Each US state, by postal code.
+const STATE_FACTS = {
+  CA: [
+    'In 1848, gold was found at Sutter\'s Mill, and thousands of people rushed to California to dig for it.',
+    'Mark Twain\'s first famous story was about a jumping frog contest in California\'s gold country.',
+    'California\'s coast redwoods are the tallest trees in the world.',
+  ],
+  NV: [
+    'Samuel Clemens first signed his name "Mark Twain" while writing for a newspaper in Virginia City, Nevada.',
+    'Nevada became a state during the Civil War, so its motto is "Battle Born."',
+    'Some of the oldest living trees on Earth, bristlecone pines thousands of years old, grow in Nevada\'s mountains.',
+  ],
+  OR: [
+    'Pioneers walked about two thousand miles beside their covered wagons on the Oregon Trail.',
+    'Lewis and Clark spent a rainy winter at the Pacific Ocean in Oregon, at the end of their long journey west.',
+    'Beverly Cleary\'s stories about Ramona Quimby and Henry Huggins are set in Portland, Oregon.',
+  ],
+  AZ: [
+    'The oldest rocks at the bottom of the Grand Canyon are almost two billion years old.',
+    'In the Petrified Forest, ancient trees have turned to colorful stone.',
+    'Arizona joined the United States on Valentine\'s Day in 1912, the last of the forty-eight states next to each other.',
+  ],
+  TX: [
+    'For almost ten years, Texas was its own country, the Republic of Texas.',
+    'Davy Crockett and Jim Bowie fought at the Alamo, an old mission in San Antonio, in 1836.',
+    'When astronauts first landed on the Moon, the first word they said from there was "Houston", the Texas city where Mission Control is.',
+  ],
+  FL: [
+    'Saint Augustine, Florida, founded by the Spanish in 1565, is the oldest city started by Europeans in the United States.',
+    'The rocket that took astronauts to the Moon in 1969 launched from Cape Canaveral, Florida.',
+    'South Florida is the only place in the world where alligators and crocodiles live side by side.',
+  ],
+  AK: [
+    'The United States bought Alaska from Russia in 1867, for about two cents an acre.',
+    'In 1925, sled dogs like Balto and Togo raced medicine across the snow to sick children in Nome, Alaska.',
+    'In the far north of Alaska, the sun doesn\'t set for about two months in summer.',
+  ],
+  HI: [
+    'Long ago, Polynesian sailors found Hawaii by steering their canoes by the stars.',
+    'Hawaii has the only royal palace in the United States, where Hawaiian kings and queens lived.',
+    'Surfing was first made famous in Hawaii, where even kings rode the waves.',
+  ],
+  WA: [
+    'Washington is the only state named after a president, George Washington.',
+    'In 1980, the volcano Mount Saint Helens erupted and blew off the whole top of the mountain.',
+    'The Space Needle in Seattle was built for a World\'s Fair in 1962.',
+  ],
+  NY: [
+    'The Statue of Liberty was a present to the United States from France.',
+    'Washington Irving\'s spooky tale of the Headless Horseman, The Legend of Sleepy Hollow, is set in New York.',
+    'New York City was once a Dutch town called New Amsterdam.',
+  ],
+  UT: [
+    'In 1869, a golden spike in Utah joined the railroad tracks from east and west, so trains could cross the whole country.',
+    'At Dinosaur National Monument in Utah, you can see a wall of rock with more than a thousand dinosaur bones in it.',
+    'The Great Salt Lake is much saltier than the ocean, so you float in it easily.',
+  ],
+  ID: [
+    'Sacagawea, the young woman who helped guide Lewis and Clark, was born in Idaho.',
+    'Hells Canyon in Idaho is deeper than the Grand Canyon.',
+    'Astronauts visited Idaho\'s Craters of the Moon to practice studying rocks before going to the Moon.',
+  ],
+  CO: [
+    'The song "America the Beautiful" was written after the writer climbed to the top of Pikes Peak in Colorado.',
+    'At Mesa Verde, Ancestral Pueblo people built whole villages into the sides of cliffs.',
+    'Colorado has the tallest sand dunes in North America.',
+  ],
+  NM: [
+    'Santa Fe, New Mexico, is the oldest state capital in the United States, more than four hundred years old.',
+    'Every summer evening, hundreds of thousands of bats fly out of Carlsbad Caverns.',
+    'People have lived in the adobe houses of Taos Pueblo for about a thousand years.',
+  ],
+  MT: [
+    'The first Tyrannosaurus rex skeleton ever found was dug up in Montana.',
+    'At the Battle of the Little Bighorn in Montana, in 1876, Sitting Bull and Crazy Horse led their people to a great victory.',
+    'Montana\'s Glacier National Park has mountain goats that climb the steepest cliffs.',
+  ],
+  WY: [
+    'Wyoming was the first place in the United States where women could vote, in 1869.',
+    'Devils Tower in Wyoming was the first national monument. A Native American legend says a giant bear made its stripes with its claws.',
+    'Most of Yellowstone, the world\'s first national park, is in Wyoming.',
+  ],
+  LA: [
+    'In 1803, the Louisiana Purchase doubled the size of the United States.',
+    'Jazz music was born in New Orleans, Louisiana.',
+    'Every year, New Orleans has Mardi Gras, with parades, masks and beads thrown from floats.',
+  ],
+  MI: [
+    'Detroit, Michigan, is called the Motor City because Henry Ford and others built cars there.',
+    'On Mackinac Island in Michigan, cars aren\'t allowed. People ride horses, carriages and bikes.',
+    'Michigan touches four of the five Great Lakes.',
+  ],
+  ME: [
+    'E. B. White wrote Charlotte\'s Web on his farm in Maine, in a barn much like Wilbur\'s.',
+    'The poet Henry Wadsworth Longfellow, who wrote "Paul Revere\'s Ride," was born in Maine.',
+    'For part of the year, the top of Cadillac Mountain in Maine is the first place in the United States to see the sunrise.',
+  ],
+  GA: [
+    'Martin Luther King Jr., who led the fight for fair treatment for Black Americans, was born in Atlanta, Georgia.',
+    'The Girl Scouts were started in Savannah, Georgia, by Juliette Gordon Low.',
+    'Georgia is named after King George the Second of England.',
+  ],
+  IL: [
+    'Abraham Lincoln lived in Illinois before he became president, so it\'s called the Land of Lincoln.',
+    'The first skyscraper in the world was built in Chicago.',
+    'A legend says the Great Chicago Fire of 1871 started when Mrs. O\'Leary\'s cow kicked over a lantern.',
+  ],
+  OK: [
+    'In the Land Run of 1889, thousands of settlers raced on horses and wagons to claim land in Oklahoma.',
+    'Many Native American nations were forced to walk to Oklahoma on a sad journey called the Trail of Tears.',
+    'Today, almost forty Native American nations have their headquarters in Oklahoma.',
+  ],
+  KS: [
+    'Amelia Earhart, the famous pilot who flew alone across the Atlantic, was born in Kansas.',
+    'Laura Ingalls Wilder\'s book Little House on the Prairie is about her family\'s time in Kansas.',
+    'The middle of the forty-eight states next to each other is in Kansas.',
+  ],
+  NE: [
+    'Arbor Day, a holiday for planting trees, was started in Nebraska.',
+    'Pioneers on the Oregon Trail looked out for Chimney Rock in Nebraska, a tall rock shaped like a chimney.',
+    'Willa Cather wrote My Ántonia, a famous book about pioneer families on the Nebraska prairie.',
+  ],
+  ND: [
+    'Theodore Roosevelt was a cowboy on a ranch in North Dakota, and a national park there is named after him.',
+    'Lewis and Clark spent a winter in North Dakota, where they met Sacagawea.',
+    'The town of Rugby, North Dakota, says it is the middle of all of North America.',
+  ],
+  SD: [
+    'Sue, one of the biggest and most complete T. rex skeletons ever found, was dug up in South Dakota.',
+    'Laura Ingalls Wilder\'s family settled in De Smet, South Dakota, the town in Little Town on the Prairie.',
+    'A giant carving of the Lakota leader Crazy Horse is being made in a mountain in South Dakota. It will be even bigger than Mount Rushmore.',
+  ],
+  MN: [
+    'The mighty Mississippi River starts in Minnesota as a stream so small you can walk across it on stepping stones.',
+    'In the tall tales, the giant lumberjack Paul Bunyan and Babe the blue ox made Minnesota\'s lakes with their footprints.',
+    'Laura Ingalls Wilder\'s book On the Banks of Plum Creek is set in Minnesota.',
+  ],
+  IA: [
+    'The farmhouse in the famous painting American Gothic, with the farmer holding a pitchfork, is in Iowa.',
+    'At Effigy Mounds, Native Americans long ago built earth mounds shaped like bears and birds.',
+    'Herbert Hoover, born in Iowa, was the first president born west of the Mississippi River.',
+  ],
+  MO: [
+    'Mark Twain grew up in Hannibal, Missouri, the town that became Tom Sawyer\'s town in his book.',
+    'The Pony Express, riders carrying mail on fast horses, started in Saint Joseph, Missouri.',
+    'Lewis and Clark set off from near Saint Louis in 1804 to explore the West.',
+  ],
+  AR: [
+    'A state law says Arkansas must be said "ARK-an-saw."',
+    'In Hot Springs, Arkansas, people have bathed in naturally warm water for hundreds of years.',
+    'President Bill Clinton was born in Arkansas.',
+  ],
+  WI: [
+    'The first kindergarten in the United States opened in Wisconsin in 1856.',
+    'Laura Ingalls Wilder was born in Wisconsin, in the house from Little House in the Big Woods.',
+    'Harry Houdini, the famous escape artist, grew up in Wisconsin.',
+  ],
+  OH: [
+    'Ohio\'s flag is the only state flag that isn\'t a rectangle. It\'s shaped like a swallow\'s tail.',
+    'The Wright brothers built their airplane in their bicycle shop in Dayton, Ohio.',
+    'Thomas Edison, inventor of the light bulb, was born in Ohio.',
+  ],
+  IN: [
+    'Abraham Lincoln spent much of his boyhood on a farm in Indiana.',
+    'There is a town in Indiana called Santa Claus, where helpers answer children\'s letters to Santa.',
+    'Wabash, Indiana, says it was the first town in the world lit up by electric lights.',
+  ],
+  KY: [
+    'Abraham Lincoln was born in a log cabin in Kentucky.',
+    'Daniel Boone, a famous frontiersman, explored Kentucky and helped make a trail through the mountains.',
+    'The Kentucky Derby horse race has been run every year since 1875.',
+  ],
+  TN: [
+    'Davy Crockett, the famous frontiersman, was born in Tennessee.',
+    'In the Great Smoky Mountains, thousands of fireflies flash all together on summer nights.',
+    'The Grand Ole Opry in Nashville has been playing music on the radio since 1925.',
+  ],
+  MS: [
+    'The teddy bear got its name after President Theodore Roosevelt went bear hunting in Mississippi and refused to shoot a tied-up bear.',
+    'Jim Henson, who made the Muppets, was born in Mississippi.',
+    'Elvis Presley was born in Tupelo, Mississippi.',
+  ],
+  AL: [
+    'In 1955, Rosa Parks refused to give up her bus seat in Montgomery, Alabama, and helped change unfair laws.',
+    'Helen Keller, who could not see or hear but learned to read, write and speak, was born in Alabama.',
+    'Harper Lee\'s famous novel To Kill a Mockingbird is set in a small town in Alabama.',
+  ],
+  SC: [
+    'The first shots of the Civil War were fired at Fort Sumter, in South Carolina, in 1861.',
+    'In 1718, the pirate Blackbeard blocked the harbor of Charleston with his ships.',
+    'Edgar Allan Poe set his treasure-hunting story The Gold-Bug on an island in South Carolina.',
+  ],
+  NC: [
+    'Virginia Dare, the first English baby born in America, was born on Roanoke Island. Her whole colony later vanished.',
+    'The wreck of Blackbeard\'s pirate ship, the Queen Anne\'s Revenge, was found off North Carolina.',
+    'The Cape Hatteras Lighthouse is the tallest brick lighthouse in the United States.',
+  ],
+  VA: [
+    'Jamestown, Virginia, started in 1607, was the first English town in America that lasted. Pocahontas lived nearby.',
+    'More presidents were born in Virginia than in any other state, including George Washington and Thomas Jefferson.',
+    'The American Revolution was won at Yorktown, Virginia, in 1781.',
+  ],
+  WV: [
+    'In the legend of John Henry, a strong railroad worker raced a steam drill through a mountain tunnel in West Virginia, and won.',
+    'West Virginia split off from Virginia during the Civil War to become its own state.',
+    'The New River Gorge Bridge in West Virginia is one of the longest steel arch bridges in the world.',
+  ],
+  PA: [
+    'The Declaration of Independence was signed in Philadelphia, Pennsylvania, in 1776.',
+    'Benjamin Franklin flew a kite in a thunderstorm in Philadelphia to show that lightning is electricity.',
+    'On Groundhog Day, people in Punxsutawney, Pennsylvania, watch a groundhog to see if winter will last longer.',
+  ],
+  NJ: [
+    'Thomas Edison invented the phonograph and worked on the light bulb in his lab in Menlo Park, New Jersey.',
+    'The first nearly complete dinosaur skeleton in North America was found in New Jersey in 1858.',
+    'On Christmas night in 1776, George Washington crossed the icy Delaware River to surprise his enemies in Trenton, New Jersey.',
+  ],
+  MD: [
+    'Francis Scott Key wrote "The Star-Spangled Banner" after watching a battle at Fort McHenry in Maryland.',
+    'Harriet Tubman was born in Maryland. She escaped slavery and then led many others to freedom.',
+    'Maryland\'s official state sport is jousting, like the knights of old.',
+  ],
+  DE: [
+    'In 1776, Caesar Rodney rode all night through a storm to Philadelphia so Delaware could vote for independence.',
+    'Delaware is called the Blue Hen State, after the fighting chickens its soldiers carried in the Revolution.',
+    'Swedish settlers in Delaware built some of the first log cabins in America.',
+  ],
+  CT: [
+    'Mark Twain wrote The Adventures of Tom Sawyer while living in Hartford, Connecticut.',
+    'The first nuclear submarine, the Nautilus, named after the submarine in Jules Verne\'s story, was built in Connecticut.',
+    'The first telephone book ever was printed in New Haven, Connecticut. It had fifty names.',
+  ],
+  RI: [
+    'Most of Rhode Island isn\'t an island at all. It\'s on the mainland.',
+    'Rhode Island was the first colony to declare independence from Britain, in May 1776.',
+    'The oldest synagogue building in the United States is in Newport, Rhode Island.',
+  ],
+  MA: [
+    'At the Boston Tea Party in 1773, colonists dumped crates of tea into Boston Harbor to protest a tax.',
+    'Paul Revere rode at midnight to warn that British soldiers were coming. A famous poem tells the story.',
+    'The book Make Way for Ducklings is about a duck family crossing a busy street in Boston.',
+  ],
+  VT: [
+    'Rudyard Kipling wrote The Jungle Book while living in Vermont.',
+    'For fourteen years, Vermont was its own little country before it joined the United States.',
+    'A farmer in Vermont, Wilson Bentley, took the first ever photograph of a single snowflake.',
+  ],
+  NH: [
+    'The poet Robert Frost lived on a farm in New Hampshire and wrote poems about its woods and walls.',
+    'A rock face called the Old Man of the Mountain looked out from a cliff in New Hampshire for thousands of years.',
+    'New Hampshire\'s motto is "Live Free or Die."',
+  ],
+};
+
+// Seas, bays and gulfs, by their key in places.js.
+const SEA_FACTS = {
+  'hudson-bay': [
+    'Henry Hudson sailed into the bay in 1610, looking for a way to China. His crew set him adrift in a little boat, and he was never seen again.',
+    'The Hudson\'s Bay Company, started in 1670 to trade furs, is one of the oldest companies in the world.',
+    'In summer, thousands of white beluga whales swim into the rivers of Hudson Bay.',
+  ],
+  'gulf-of-mexico': [
+    'The pirate Jean Lafitte hid his ships in the bays along the Gulf of Mexico.',
+    'Kemp\'s ridley sea turtles, the smallest sea turtles, come to its beaches to lay their eggs.',
+    'Warm water from the Gulf of Mexico flows out into the Atlantic and helps start the Gulf Stream.',
+  ],
+  'caribbean-sea': [
+    'Christopher Columbus\'s ships reached the islands of the Caribbean in 1492.',
+    'Port Royal in Jamaica was a famous pirate town, until an earthquake sank much of it into the sea in 1692.',
+    'Robinson Crusoe\'s island, in the famous shipwreck story, is in the Caribbean Sea.',
+  ],
+  'mediterranean-sea': [
+    'Mediterranean means "in the middle of the land."',
+    'The Greeks said its entrance, by Gibraltar, was guarded by the Pillars of Hercules.',
+    'The Romans ruled all the lands around it and called it "Our Sea."',
+  ],
+  'gulf-of-alaska': [
+    'In 1958, a landslide in Lituya Bay made the biggest wave ever recorded, taller than any building in the world back then.',
+    'Vitus Bering, sailing for Russia in 1741, was one of the first Europeans to see Alaska, from the Gulf of Alaska.',
+    'Sea otters in the Gulf of Alaska hold hands while they sleep, so they don\'t drift apart.',
+  ],
+  'bering-sea': [
+    'In the Ice Age, the sea was lower, and people walked across a land bridge here from Asia to America.',
+    'Two islands in the Bering Sea, Big Diomede and Little Diomede, are less than three miles apart, but a whole day apart, because the date line runs between them.',
+    'It is named after Vitus Bering, a Danish explorer who sailed for the Russian tsar.',
+  ],
+  'golfo-de-california': [
+    'The explorer Jacques Cousteau called the Gulf of California "the world\'s aquarium."',
+    'The author John Steinbeck sailed it with a scientist friend and wrote a book about the sea creatures they found.',
+    'The vaquita, the smallest porpoise in the world, lives only here.',
+  ],
+  'red-sea': [
+    'In the Bible story, Moses parts the waters of the Red Sea.',
+    'The Red Sea is slowly getting wider, because Africa and Arabia are drifting apart.',
+    'It may be named after red seaweed that sometimes blooms in the water.',
+  ],
+  'black-sea': [
+    'Deep in the Black Sea there is almost no oxygen, so ancient shipwrecks have stayed whole for thousands of years.',
+    'In the Greek myths, the warrior women called the Amazons lived on the shores of the Black Sea.',
+    'The ancient Greeks called it the "Welcoming Sea," hoping to make it friendly to sailors.',
+  ],
+  'north-sea': [
+    'Long ago, part of the North Sea was dry land where people hunted. Today it is called Doggerland.',
+    'In the year 793, Vikings sailed across the North Sea and raided the island monastery of Lindisfarne.',
+    'The Dutch built giant gates and walls called the Delta Works to hold back North Sea storms.',
+  ],
+  'baltic-sea': [
+    'The Swedish warship Vasa sank on its very first voyage in 1628, and was lifted out of the sea more than three hundred years later.',
+    'Long ago, merchants of the Hanseatic League sailed the Baltic in round ships called cogs, trading fish, furs and amber.',
+    'In the north, the Baltic freezes over in winter.',
+  ],
+  'bay-of-bengal': [
+    'In the Sundarbans, a huge mangrove forest on the Bay of Bengal, tigers swim between the islands.',
+    'The Ganges River flows into the bay, making the biggest river delta in the world.',
+    'The monsoon winds blow off the bay and bring heavy summer rains to India.',
+  ],
+  'aegean-sea': [
+    'In the myths, the Minotaur lived in a maze called the Labyrinth on Crete, at the southern edge of the Aegean.',
+    'The city of Troy, from the story of the wooden horse, stood near the Aegean shore.',
+    'Divers found an ancient Greek machine in a shipwreck nearby that could predict eclipses. Some call it the first computer.',
+  ],
+  'arabian-sea': [
+    'Long ago, sailors waited for the monsoon winds to blow them across the Arabian Sea to trade spices.',
+    'The humpback whales of the Arabian Sea never leave it. They are the most isolated whales in the world.',
+    'Traders crossed it in wooden sailing boats called dhows for thousands of years.',
+  ],
+  'south-china-sea': [
+    'About six hundred years ago, the Chinese admiral Zheng He sailed giant treasure ships across the South China Sea.',
+    'It is one of the busiest seas in the world, with thousands of ships carrying things everywhere.',
+    'Strong storms called typhoons often form over the South China Sea.',
+  ],
+  'sea-of-japan': [
+    'In the Japanese tale of Urashima Taro, a fisherman rides a turtle to a palace under the sea, where a dragon king lives.',
+    'Twice, storms that the Japanese called "kamikaze," the divine wind, wrecked fleets sailing to invade Japan.',
+    'Giant jellyfish in the Sea of Japan can grow bigger than a person.',
+  ],
+  'coral-sea': [
+    'In 1770, Captain Cook\'s ship Endeavour ran aground on the Great Barrier Reef.',
+    'Sea turtles swim thousands of miles to lay their eggs on the beaches of the Coral Sea.',
+    'In the Battle of the Coral Sea in 1942, the ships fighting never even saw each other. Airplanes did all the fighting.',
+  ],
+  'tasman-sea': [
+    'It is named after the Dutch explorer Abel Tasman, who sailed there in 1642.',
+    'Giant stick insects thought to be gone forever were found living on a lonely rock in the Tasman Sea.',
+    'In 1928, a pilot named Charles Kingsford Smith made the first flight across the Tasman Sea.',
+  ],
+  'persian-gulf': [
+    'In the Arabian Nights, Sinbad the Sailor sets out from Basra, at the top of the Persian Gulf.',
+    'The ancient Sumerians told of Dilmun, a magical land in the gulf where no one grew old.',
+    'Gentle sea cows called dugongs graze on sea grass in the Persian Gulf.',
+  ],
+  'gulf-of-guinea': [
+    'Ghana, on the Gulf of Guinea, used to be called the Gold Coast, because of all its gold.',
+    'On the island of São Tomé in the gulf, a giant rock tower called Pico Cão Grande sticks straight up out of the jungle.',
+    'Sea turtles come to its beaches to lay their eggs.',
+  ],
+  'labrador-sea': [
+    'About a thousand years ago, the Viking Leif Erikson sailed past Labrador and called it Markland, the land of forests.',
+    'Icebergs from Greenland float south through the Labrador Sea. The one that sank the Titanic came this way.',
+    'Labrador retriever dogs got their name from this part of Canada.',
+  ],
+  'baffin-bay': [
+    'It is named after William Baffin, an English sailor who explored it in 1616.',
+    'The Inuit hunted in Baffin Bay in kayaks, boats they invented.',
+    'In 1845, whalers in Baffin Bay saw the ships of the explorer John Franklin. After that, his expedition was never seen again.',
+  ],
+  'bay-of-biscay': [
+    'Jules Verne, who wrote Twenty Thousand Leagues Under the Sea, grew up in Nantes, near the Bay of Biscay.',
+    'Long ago, Basque sailors from the bay\'s shores were some of the first people to hunt whales far out at sea.',
+    'Dolphins and whales are often seen from the ferries that cross the bay.',
+  ],
+  'irish-sea': [
+    'A legend says the giant Finn McCool scooped up a chunk of Ireland and threw it into the sea, and it became the Isle of Man.',
+    'Saint Patrick crossed the Irish Sea to bring Christianity to Ireland.',
+    'On the Isle of Man, in the middle of the Irish Sea, there is a kind of cat with no tail, the Manx cat.',
+  ],
+  'sargasso-sea': [
+    'Eels from rivers in Europe and America swim thousands of miles to the Sargasso Sea to lay their eggs.',
+    'Columbus\'s sailors were afraid the seaweed would trap their ships.',
+    'Part of the Sargasso Sea is in the Bermuda Triangle, where many stories say ships disappeared.',
+  ],
+  'gulf-of-saint-lawrence': [
+    'Anne of Green Gables lives on Prince Edward Island, in the Gulf of Saint Lawrence.',
+    'The French explorer Jacques Cartier sailed into the gulf in 1534.',
+    'Vikings built a village nearby, on the tip of Newfoundland, about a thousand years ago.',
+  ],
+  'adriatic-sea': [
+    'Every year, Venice holds a ceremony where it "marries" the sea by throwing a ring into the water.',
+    'Marco Polo sailed from Venice on the Adriatic on his long journey to China.',
+    'In Split, on the Adriatic, people live and shop inside the walls of a Roman emperor\'s palace.',
+  ],
+  'caspian-sea': [
+    'Sturgeon, huge fish whose family goes back to the time of the dinosaurs, live in the Caspian Sea.',
+    'The Volga, the longest river in Europe, flows into the Caspian Sea.',
+    'The Caspian has its own seals, living far from any ocean.',
+  ],
+  'weddell-sea': [
+    'In 2022, explorers found Shackleton\'s ship Endurance on the bottom of the Weddell Sea, more than a hundred years after it sank.',
+    'Weddell seals live farther south than any other mammal.',
+    'Emperor penguins huddle together on its ice through the long, dark winter.',
+  ],
+  'ross-sea': [
+    'Roald Amundsen and Robert Falcon Scott both started their race to the South Pole from the edge of the Ross Sea.',
+    'The Ross Ice Shelf, a huge floating sheet of ice, is about as big as France.',
+    'Mount Erebus, a volcano near the Ross Sea, has a lake of glowing lava in its crater.',
+  ],
+  'barents-sea': [
+    'In 1596, the Dutch explorer Willem Barentsz and his crew were trapped by ice and had to spend the winter in a hut they built.',
+    'Polar bears and walruses live on the islands of Svalbard, at the edge of the Barents Sea.',
+    'Warm water from the Gulf Stream keeps part of the Barents Sea free of ice, even in winter.',
+  ],
+  'sea-of-okhotsk': [
+    'Drifting sea ice reaches Japan from the Sea of Okhotsk, farther south than anywhere else in the Northern Hemisphere.',
+    'Steller\'s sea eagles, some of the biggest eagles in the world, spend the winter there.',
+    'The Ainu people of northern Japan told stories of gods that came as bears and owls.',
+  ],
+  'philippine-sea': [
+    'Ferdinand Magellan crossed the Philippine Sea to reach the Philippines in 1521.',
+    'Some of the strongest typhoons in the world form over the Philippine Sea.',
+    'Japan protects a tiny reef in the Philippine Sea, Okinotorishima, with concrete walls to keep it from washing away.',
+  ],
+  'yellow-sea': [
+    'The Great Wall of China ends at the sea, at a spot called the Old Dragon\'s Head.',
+    'Off the coast of Korea, the tide goes out so far that a path appears, and people walk across the sea to an island.',
+    'Millions of birds stop to rest and eat on its mudflats on their long journeys.',
+  ],
+  'gulf-of-aden': [
+    'Ships carried frankincense and myrrh, precious perfumes, across the Gulf of Aden in ancient times.',
+    'On the island of Socotra nearby, dragon\'s blood trees look like giant umbrellas and have red sap.',
+    'Legends say the Queen of Sheba ruled lands on both sides of the gulf.',
+  ],
+  'great-australian-bight': [
+    'The Bunda Cliffs along the bight are some of the longest unbroken sea cliffs in the world.',
+    'The explorer Matthew Flinders mapped the coast of the bight in 1802.',
+    'Great white sharks swim in its cold waters.',
+  ],
+};
