@@ -87,8 +87,8 @@ function defaultState() {
   return {
     childName: 'Tom', levels: Object.fromEntries(ORDER.map(k => [k, 1])),
     on: { home: true, continents: true, oceans: true },
-    rec: {}, stretch: {}, mastered: {}, words: {}, cards: [], cleared: 0,
-    sessions: [], log: [], done: {}, total: 0, perSession: 10, sayIt: true, speed: 'normal', updatedAt: 0,
+    rec: {}, stretch: {}, mastered: {}, words: {}, cards: [], cleared: 0, factAt: {},
+    sessions: [], log: [], done: {}, total: 0, perSession: 10, sayIt: true, funFacts: true, speed: 'normal', updatedAt: 0,
   };
 }
 function normalize(s) {
@@ -479,10 +479,20 @@ function autoSay() {
   const p = sess.probs[sess.i];
   say(p.mode === 'intro' ? introLine(p) : p.prompt);
 }
+// After a country or its flag is found, the next of its fun facts, taking turns so each visit brings a new one.
+function nextFact(p) {
+  const list = (p.place === 'country' || p.place === 'flag') && state.funFacts && p.kind !== 'check' ? FUN_FACTS[p.id] : null;
+  if (!list?.length) return '';
+  const i = (state.factAt[p.id] || 0) % list.length;
+  state.factAt[p.id] = i + 1;
+  return list[i];
+}
+const didYou = p => p.funFact ? ` Did you know? ${p.funFact}` : '';
 function gotIt(p) {
   p.done = true;
   p.praise = p.tries === 0 ? pick(PRAISE) : 'Yes, there it is!';
-  say(p.place === 'flag' ? `${p.praise} That's the flag of ${p.name}.` : p.home ? `${p.praise} ${p.item.answer}` : `${p.praise} ${cap(p.name)}.`);
+  p.funFact = nextFact(p);
+  say((p.place === 'flag' ? `${p.praise} That's the flag of ${p.name}.` : p.home ? `${p.praise} ${p.item.answer}` : `${p.praise} ${cap(p.name)}.`) + didYou(p));
   record(p, p.tries === 0);
 }
 function answer(idx) {
@@ -498,7 +508,8 @@ function answer(idx) {
   const named = c.flag ? `That's the flag of ${c.name}.` : `That's ${c.name}.`;
   if (over) {
     p.done = true; p.revealed = true; record(p, false);
-    say(`${named} ${p.home ? p.item.answer : p.place === 'flag' && p.layout === 'flagmap' ? `This is the flag of ${p.name}.` : `Here is ${p.name}.`}`);
+    p.funFact = nextFact(p);
+    say(`${named} ${p.home ? p.item.answer : p.place === 'flag' && p.layout === 'flagmap' ? `This is the flag of ${p.name}.` : `Here is ${p.name}.`}` + didYou(p));
   } else { save(); say(`${named} Try again!`); }
   render(!p.done);
 }
@@ -507,8 +518,9 @@ function sayCheck(ok) {
   const p = sess.probs[sess.i];
   if (p.done) return;
   p.done = true;
-  if (ok) { p.praise = pick(PRAISE); say(p.praise); }
-  else { p.revealed = true; say(cap(p.name)); }
+  p.funFact = nextFact(p);
+  if (ok) { p.praise = pick(PRAISE); say(p.praise + didYou(p)); }
+  else { p.revealed = true; say(cap(p.name) + didYou(p)); }
   record(p, ok);
   render();
 }
@@ -666,7 +678,7 @@ function renderPlay() {
   const p = sess.probs[sess.i];
   const ticks = sess.probs.map((q, j) => `<span class="${q.mode === 'intro' ? (j <= sess.i ? 'intro' : 'intro-later') : q.result === true ? 'done' : q.result === false ? 'miss' : j === sess.i ? 'now' : ''}"></span>`).join('');
   const title = `<span class="word">${p.place === 'flag' ? `<span class="flag-sm">${flagOf(p.id)}</span> ` : ''}${esc(cap(p.name))}</span>`;
-  const fact = `<span class="how">${esc(p.fact)}</span>`;
+  const fact = p.funFact ? `<button class="didyou" data-act="speak" data-t="Did you know? ${esc(p.funFact)}"><b>Did you know?</b> ${esc(p.funFact)}</button>` : `<span class="how">${esc(p.fact)}</span>`;
   let fb = '';
   if (p.mode === 'intro') fb = '';
   else if (p.done && !p.revealed) fb = `<span class="big good">${esc(p.praise)}</span>${title}${p.kind === 'check' ? '' : fact}`;
@@ -798,6 +810,8 @@ function renderParent() {
     ${nameForm("Child's name", 'Save')}
     <div class="row-btns"><span>Questions per round</span><div class="seg">${[5, 10, 15].map(n => `<button data-act="per" data-n="${n}" aria-pressed="${state.perSession === n}">${n}</button>`).join('')}</div></div>
     <div class="row-btns"><span>“Say it” turns</span><div class="seg"><button data-act="sayit" data-v="1" aria-pressed="${state.sayIt}">On</button><button data-act="sayit" data-v="0" aria-pressed="${!state.sayIt}">Off</button></div></div>
+    <div class="row-btns"><span>Fun facts after answers</span><div class="seg"><button data-act="funfacts" data-v="1" aria-pressed="${state.funFacts}">On</button><button data-act="funfacts" data-v="0" aria-pressed="${!state.funFacts}">Off</button></div></div>
+    <p class="note">After a country or its flag is found, the voice adds “Did you know?” and one of three facts about it (history, records and unusual things), a different one each time. Facts are in facts.js.</p>
     <p class="note">For places already known, about 1 in 3 questions lights up the place for ${esc(N())} to name out loud, then tap to hear it and say whether it matched.</p>
     <div class="row-btns"><span>Speaking speed</span><div class="seg"><button data-act="speed" data-v="normal" aria-pressed="${state.speed !== 'slow'}">Normal</button><button data-act="speed" data-v="slow" aria-pressed="${state.speed === 'slow'}">Slower</button></div><span class="note">The 🐢 button always says it very slowly.</span></div>
     ${voiceNote}
@@ -923,6 +937,7 @@ app.addEventListener('click', e => {
   else if (act === 'chip') { state.on[b.dataset.k] = !state.on[b.dataset.k]; save(); render(); }
   else if (act === 'lvl') { const k = b.dataset.k; state.levels[k] = Math.max(1, Math.min(maxLevel(k), state.levels[k] + +b.dataset.d)); state.rec[k] = []; save(); render(); }
   else if (act === 'per') { state.perSession = +b.dataset.n; save(); render(); }
+  else if (act === 'funfacts') { state.funFacts = b.dataset.v === '1'; save(); render(); }
   else if (act === 'sayit') { state.sayIt = b.dataset.v === '1'; save(); render(); }
   else if (act === 'speed') { state.speed = b.dataset.v; save(); render(); say('Where is Africa?'); }
   else if (act === 'try-voice') say('Hello! Can you find Egypt? Well done!');
@@ -949,7 +964,7 @@ app.addEventListener('click', e => {
   else if (act === 'wipe') { confirmWipe = true; wiped = false; render(); }
   else if (act === 'wipe-no') { confirmWipe = false; render(); }
   else if (act === 'wipe-yes') {
-    const keep = { childName: state.childName, perSession: state.perSession, sayIt: state.sayIt, speed: state.speed };
+    const keep = { childName: state.childName, perSession: state.perSession, sayIt: state.sayIt, funFacts: state.funFacts, speed: state.speed };
     state = Object.assign(defaultState(), keep);
     confirmWipe = false; wiped = true; sess = null; lastChanges = [];
     save(); render();

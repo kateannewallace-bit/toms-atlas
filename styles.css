@@ -411,3 +411,5 @@ input:focus-visible, select:focus-visible { outline: 3px solid var(--yellow); ou
 .map .water.opt { cursor: pointer; }
 .map .water.lit { fill: var(--blue); }
 .map .water.ok { fill: var(--green); }
+.didyou { background: none; border: 2px dashed rgba(243,215,122,.45); border-radius: 14px 10px 16px 9px; padding: 8px 14px; color: var(--chalk); font-size: 1.05rem; max-width: 40ch; text-align: center; margin-top: 4px; }
+.didyou b { color: var(--yellow); }
