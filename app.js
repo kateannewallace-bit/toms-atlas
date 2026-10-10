@@ -88,7 +88,7 @@ function defaultState() {
     childName: 'Tom', levels: Object.fromEntries(ORDER.map(k => [k, 1])),
     on: { home: true, continents: true, oceans: true },
     rec: {}, stretch: {}, mastered: {}, words: {}, cards: [], cleared: 0, factAt: {},
-    sessions: [], log: [], done: {}, total: 0, perSession: 10, sayIt: true, funFacts: true, speed: 'normal', updatedAt: 0,
+    sessions: [], log: [], done: {}, total: 0, perSession: 10, sayIt: true, funFacts: true, autoSpeak: false, speed: 'normal', updatedAt: 0,
   };
 }
 function normalize(s) {
@@ -475,9 +475,10 @@ function buildCheck() {
 function startCheck() { sess = buildCheck(); if (!sess.probs.length) return; screen = 'play'; render(); autoSay(); }
 
 const introLine = p => p.home ? p.fact : p.place === 'flag' ? p.fact : `This is ${p.name}. ${p.fact}`;
+// Reading aloud on its own is a setting (off unless turned on); the speaker button always reads what's on the board.
 function autoSay() {
   const p = sess.probs[sess.i];
-  say(p.mode === 'intro' ? introLine(p) : p.prompt);
+  if (state.autoSpeak) say(p.mode === 'intro' ? introLine(p) : p.prompt);
 }
 // After a country or its flag is found, the next of its fun facts, taking turns so each visit brings a new one.
 // States and seas too. A country and its flag share their facts.
@@ -491,12 +492,14 @@ function nextFact(p) {
   state.factAt[key] = i + 1;
   return list[i];
 }
+// What the board says after an answer: kept so the speaker button can read it, and spoken now only if reading aloud is on.
+function tell(p, text) { p.line = text; if (state.autoSpeak) say(text); }
 const didYou = p => p.funFact ? ` Did you know? ${p.funFact}` : '';
 function gotIt(p) {
   p.done = true;
   p.praise = p.tries === 0 ? pick(PRAISE) : 'Yes, there it is!';
   p.funFact = nextFact(p);
-  say((p.place === 'flag' ? `${p.praise} That's the flag of ${p.name}.` : p.home ? `${p.praise} ${p.item.answer}` : `${p.praise} ${cap(p.name)}.`) + didYou(p));
+  tell(p, (p.place === 'flag' ? `${p.praise} That's the flag of ${p.name}.` : p.home ? `${p.praise} ${p.item.answer}` : `${p.praise} ${cap(p.name)}.`) + didYou(p));
   record(p, p.tries === 0);
 }
 function answer(idx) {
@@ -513,8 +516,8 @@ function answer(idx) {
   if (over) {
     p.done = true; p.revealed = true; record(p, false);
     p.funFact = nextFact(p);
-    say(`${named} ${p.home ? p.item.answer : p.place === 'flag' && p.layout === 'flagmap' ? `This is the flag of ${p.name}.` : `Here is ${p.name}.`}` + didYou(p));
-  } else { save(); say(`${named} Try again!`); }
+    tell(p, `${named} ${p.home ? p.item.answer : p.place === 'flag' && p.layout === 'flagmap' ? `This is the flag of ${p.name}.` : `Here is ${p.name}.`}` + didYou(p));
+  } else { save(); if (state.autoSpeak) say(`${named} Try again!`); }
   render(!p.done);
 }
 // Say it: the child names the place, hears it, then says whether it matched.
@@ -523,8 +526,8 @@ function sayCheck(ok) {
   if (p.done) return;
   p.done = true;
   p.funFact = nextFact(p);
-  if (ok) { p.praise = pick(PRAISE); say(p.praise + didYou(p)); }
-  else { p.revealed = true; say(cap(p.name) + didYou(p)); }
+  if (ok) { p.praise = pick(PRAISE); tell(p, p.praise + didYou(p)); }
+  else { p.revealed = true; tell(p, cap(p.name) + didYou(p)); }
   record(p, ok);
   render();
 }
@@ -571,13 +574,13 @@ function next() {
   if (cur.mode === 'intro') { state.words[cur.wid] = state.words[cur.wid] || { r: 0, m: 0 }; save(); }
   if (sess.i < sess.probs.length - 1) { sess.i++; render(); autoSay(); return; }
   const used = [...new Set(sess.probs.map(p => p.topic))];
-  if (sess.check) { levelFromKnown(); lastChanges = []; save(); screen = 'done'; render(); say(greet('Well done')); return; }
+  if (sess.check) { levelFromKnown(); lastChanges = []; save(); screen = 'done'; render(); if (state.autoSpeak) say(greet('Well done')); return; }
   lastChanges = adjustLevels(used);
   state.sessions.unshift({ d: new Date().toISOString(), score: sess.results.filter(Boolean).length, n: sess.results.length, skills: used, learned: sess.learned.length });
   state.sessions = state.sessions.slice(0, 40);
   save();
   screen = 'done'; render();
-  say(`${document.querySelector('h1')?.textContent || ''} ${document.querySelector('.cheer')?.textContent || ''}`);
+  if (state.autoSpeak) say(`${document.querySelector('h1')?.textContent || ''} ${document.querySelector('.cheer')?.textContent || ''}`);
 }
 // Up: 5 in a row, 7 of the last 8, or 3 stretch places in a row, all right on the first try; or every place in the set known.
 // Down: 4 misses in the last 6. Finishing the top level masters the topic and turns on the next one.
@@ -695,7 +698,7 @@ function renderPlay() {
       ${p.place === 'flag' ? `<button class="bigflag" data-act="intro-again" aria-label="Hear it again">${flagOf(p.id)}</button>` : ''}
       <button class="map-btn" data-act="intro-again" aria-label="Hear it again">${problemMap(p)}</button>
       <div class="feedback">${title}${fact}</div>`;
-    controls = '<p class="note center">Tap the map to hear it again. Can you point to it too?</p>';
+    controls = '<p class="note center">Can you point to it? Tap the map to hear it read aloud.</p>';
   } else if (p.mode === 'say') {
     body = `<div class="map-wrap">${problemMap(p)}</div><div class="prompt">${esc(p.prompt)}</div>`;
     controls = p.done ? '' : !p.heard
@@ -814,8 +817,10 @@ function renderParent() {
     ${nameForm("Child's name", 'Save')}
     <div class="row-btns"><span>Questions per round</span><div class="seg">${[5, 10, 15].map(n => `<button data-act="per" data-n="${n}" aria-pressed="${state.perSession === n}">${n}</button>`).join('')}</div></div>
     <div class="row-btns"><span>“Say it” turns</span><div class="seg"><button data-act="sayit" data-v="1" aria-pressed="${state.sayIt}">On</button><button data-act="sayit" data-v="0" aria-pressed="${!state.sayIt}">Off</button></div></div>
+    <div class="row-btns"><span>Read aloud automatically</span><div class="seg"><button data-act="autospeak" data-v="1" aria-pressed="${state.autoSpeak}">On</button><button data-act="autospeak" data-v="0" aria-pressed="${!state.autoSpeak}">Off</button></div></div>
+    <p class="note">Off: nothing is spoken until you tap the speaker button, which reads the question, or after an answer, what's on the board and the fun fact. On: every question, answer and fact is read aloud by itself, for a child reading alone.</p>
     <div class="row-btns"><span>Fun facts after answers</span><div class="seg"><button data-act="funfacts" data-v="1" aria-pressed="${state.funFacts}">On</button><button data-act="funfacts" data-v="0" aria-pressed="${!state.funFacts}">Off</button></div></div>
-    <p class="note">After a country, flag, state or sea is found, the voice adds “Did you know?” and one of three facts about it (history, stories, records and unusual things), a different one each time. Facts are in facts.js.</p>
+    <p class="note">After a country, flag, state or sea is found, the board adds “Did you know?” and one of three facts about it (history, stories, records and unusual things), a different one each time. Facts are in facts.js.</p>
     <p class="note">For places already known, about 1 in 3 questions lights up the place for ${esc(N())} to name out loud, then tap to hear it and say whether it matched.</p>
     <div class="row-btns"><span>Speaking speed</span><div class="seg"><button data-act="speed" data-v="normal" aria-pressed="${state.speed !== 'slow'}">Normal</button><button data-act="speed" data-v="slow" aria-pressed="${state.speed === 'slow'}">Slower</button></div><span class="note">The 🐢 button always says it very slowly.</span></div>
     ${voiceNote}
@@ -930,7 +935,7 @@ app.addEventListener('click', e => {
   else if (act === 'check') startCheck();
   else if (act === 'pick') answer(+b.dataset.i);
   else if (act === 'next') next();
-  else if (act === 'say' || act === 'slow') { const p = sess.probs[sess.i]; say(p.mode === 'say' && (p.heard || p.done) ? cap(p.name) : p.mode === 'intro' ? introLine(p) : p.prompt, act === 'slow'); }
+  else if (act === 'say' || act === 'slow') { const p = sess.probs[sess.i]; say(p.done && p.line ? p.line : p.mode === 'say' && (p.heard || p.done) ? cap(p.name) : p.mode === 'intro' ? introLine(p) : p.prompt, act === 'slow'); }
   else if (act === 'hear') { const p = sess.probs[sess.i]; p.heard = true; say(cap(p.name)); render(); }
   else if (act === 'intro-again') say(introLine(sess.probs[sess.i]));
   else if (act === 'said-yes') sayCheck(true);
@@ -941,12 +946,13 @@ app.addEventListener('click', e => {
   else if (act === 'chip') { state.on[b.dataset.k] = !state.on[b.dataset.k]; save(); render(); }
   else if (act === 'lvl') { const k = b.dataset.k; state.levels[k] = Math.max(1, Math.min(maxLevel(k), state.levels[k] + +b.dataset.d)); state.rec[k] = []; save(); render(); }
   else if (act === 'per') { state.perSession = +b.dataset.n; save(); render(); }
+  else if (act === 'autospeak') { state.autoSpeak = b.dataset.v === '1'; save(); render(); }
   else if (act === 'funfacts') { state.funFacts = b.dataset.v === '1'; save(); render(); }
   else if (act === 'sayit') { state.sayIt = b.dataset.v === '1'; save(); render(); }
   else if (act === 'speed') { state.speed = b.dataset.v; save(); render(); say('Where is Africa?'); }
   else if (act === 'try-voice') say('Hello! Can you find Egypt? Well done!');
   else if (act === 'print') printMap(b.dataset.k);
-  else if (act === 'known') { const wid = b.dataset.w; markKnown(wid, !isKnown(wid)); levelFromKnown(); say(cap(anyItem(wid).name)); save(); renderKeepingFolds(); }
+  else if (act === 'known') { const wid = b.dataset.w; markKnown(wid, !isKnown(wid)); levelFromKnown(); if (state.autoSpeak) say(cap(anyItem(wid).name)); save(); renderKeepingFolds(); }
   else if (act === 'known-all' || act === 'known-none') { allItems(b.dataset.k).forEach(w => markKnown(w.wid, act === 'known-all')); levelFromKnown(); save(); renderKeepingFolds(); }
   else if (act === 'sync-new') { startSync(newCode()); render(); }
   else if (act === 'sync-join') {
@@ -968,7 +974,7 @@ app.addEventListener('click', e => {
   else if (act === 'wipe') { confirmWipe = true; wiped = false; render(); }
   else if (act === 'wipe-no') { confirmWipe = false; render(); }
   else if (act === 'wipe-yes') {
-    const keep = { childName: state.childName, perSession: state.perSession, sayIt: state.sayIt, funFacts: state.funFacts, speed: state.speed };
+    const keep = { childName: state.childName, perSession: state.perSession, sayIt: state.sayIt, funFacts: state.funFacts, autoSpeak: state.autoSpeak, speed: state.speed };
     state = Object.assign(defaultState(), keep);
     confirmWipe = false; wiped = true; sess = null; lastChanges = [];
     save(); render();

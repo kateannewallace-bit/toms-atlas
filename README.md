@@ -1,13 +1,13 @@
 # Tom's Atlas
 
-Geography for young kids who aren't reading yet, on the same chalkboard and engine as [Tom's Chalkboard](https://github.com/kateannewallace-bit/toms-chalkboard). Every question is read aloud, and the child answers by tapping the real map.
+Geography for young kids who aren't reading yet, on the same chalkboard and engine as [Tom's Chalkboard](https://github.com/kateannewallace-bit/toms-chalkboard). The child answers by tapping the real map. A grown-up can read the board, or tap the speaker to have the question, answer and fun fact read aloud; turning on “Read aloud automatically” on the grown-ups page reads everything by itself, for a child playing alone.
 
 - **Where we live:** our state, country, continent and ocean, with a star on home (Grass Valley, California) on every map.
-- **Continents and oceans:** a voice asks "Where is Africa?" and the child taps it on a world map colored like a classroom globe.
+- **Continents and oceans:** the board asks "Where is Africa?" and the child taps it on a world map colored like a classroom globe.
 - **Oceans have their real boundaries** (Natural Earth marine areas, assigned to oceans following the IHO's *Limits of Oceans and Seas*), so tapping Hudson Bay or the Norwegian Sea counts as the Arctic, and the Gulf of Mexico or the Mediterranean as the Atlantic. Each ocean is its own shade of blue.
 - **Seas and bays:** 36 of them in sets of six, starting with Hudson Bay, the Gulf of Mexico, the Caribbean, the Mediterranean, the Gulf of Alaska and the Bering Sea. Smaller seas light up with the bigger sea they belong to (the Aegean with the Mediterranean) unless they're the one being asked.
 - **Countries:** 65 countries in sets of six, from big and famous (the United States, Russia, Egypt, Greece) to smaller and farther. Four countries light up in different chalk colors; small countries get a close-up of their part of the world and a dashed ring that's easy to tap.
-- **Did you know?** Every country, state and sea has three fun facts in `facts.js` (history, legends, nature, records and unusual things). After one is found, the voice reads the next one, so each visit brings a new fact. A grown-ups setting turns them off.
+- **Did you know?** Every country, state and sea has three fun facts in `facts.js` (history, legends, nature, records and unusual things). After one is found, the board shows the next one, so each visit brings a new fact. A grown-ups setting turns them off.
 - **Flags:** "Which flag belongs to Japan?" with four flags, and once a country is known, "Whose flag is this? Tap the country!"
 - **US states:** all fifty, starting with California and its neighbors.
 - **Teach, then ask:** a new place is shown on the map with a short spoken fact first, and asked a couple of questions later. About four new places per round.
