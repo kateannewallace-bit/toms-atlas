@@ -23,10 +23,73 @@ const OCEANS = [
   ['pacific', 'the Pacific Ocean', 'The Pacific is the biggest ocean of all. Its waves reach California, not far from our home.'],
   ['atlantic', 'the Atlantic Ocean', 'The Atlantic Ocean is between the Americas and Europe and Africa. Long ago, sailing ships took weeks to cross it.'],
   ['indian', 'the Indian Ocean', 'The Indian Ocean is warm. It is between Africa, Asia and Australia.'],
-  ['arctic', 'the Arctic Ocean', 'The Arctic Ocean is at the top of the world, around the North Pole. Polar bears hunt on its ice.'],
+  ['arctic', 'the Arctic Ocean', 'The Arctic Ocean is at the top of the world, around the North Pole. Polar bears hunt on its ice, and Hudson Bay in Canada is part of it.'],
   ['southern', 'the Southern Ocean', 'The Southern Ocean goes all the way around Antarctica. Whales and penguins swim there.'],
 ];
 const OCEAN_SETS = [['pacific', 'atlantic'], ['indian', 'arctic', 'southern']];
+
+// Seas, bays and gulfs: smaller waters at the edges of the oceans. Each belongs to an ocean (Hudson Bay to the Arctic).
+// [key from the map data, name as said in a sentence, fact]
+const SEA_SETS = [
+  [
+    ['hudson-bay', 'Hudson Bay', 'Hudson Bay is a giant bay in Canada. In winter it freezes, and polar bears walk out on the ice to hunt seals.'],
+    ['gulf-of-mexico', 'the Gulf of Mexico', 'The Gulf of Mexico is warm water between the United States and Mexico. The Mississippi River flows into it.'],
+    ['caribbean-sea', 'the Caribbean Sea', 'The Caribbean Sea is warm and blue, full of islands, coral reefs and old pirate stories.'],
+    ['mediterranean-sea', 'the Mediterranean Sea', 'The Mediterranean Sea is between Europe and Africa. Odysseus sailed it in the Greek myths.'],
+    ['gulf-of-alaska', 'the Gulf of Alaska', 'The Gulf of Alaska has glaciers that crumble into the sea, and humpback whales.'],
+    ['bering-sea', 'the Bering Sea', 'The Bering Sea is between Alaska and Russia. It is cold and stormy, with walruses on the ice.'],
+  ],
+  [
+    ['golfo-de-california', 'the Gulf of California', 'The Gulf of California is a long, narrow sea in Mexico. Whales and sea lions swim there.'],
+    ['red-sea', 'the Red Sea', 'The Red Sea is between Africa and Arabia, with bright coral reefs.'],
+    ['black-sea', 'the Black Sea', 'The Black Sea is between Europe and Asia. Jason and the Argonauts sailed there to find the Golden Fleece.'],
+    ['north-sea', 'the North Sea', 'The North Sea is cold and stormy. Viking longships sailed across it.'],
+    ['baltic-sea', 'the Baltic Sea', 'The Baltic Sea is not very salty. Its beaches have amber, golden stone made from ancient tree sap.'],
+    ['bay-of-bengal', 'the Bay of Bengal', 'The Bay of Bengal is the biggest bay in the world, between India and Southeast Asia.'],
+  ],
+  [
+    ['aegean-sea', 'the Aegean Sea', 'The Aegean Sea is full of Greek islands. In the myths, it is named after King Aegeus, the father of Theseus.'],
+    ['arabian-sea', 'the Arabian Sea', 'The Arabian Sea is part of the Indian Ocean, where the stories of Sinbad the Sailor are set.'],
+    ['south-china-sea', 'the South China Sea', 'The South China Sea is a big sea in Asia, with hundreds of tiny islands and reefs.'],
+    ['sea-of-japan', 'the Sea of Japan', 'The Sea of Japan is between Japan and the mainland of Asia.'],
+    ['coral-sea', 'the Coral Sea', 'The Coral Sea has the Great Barrier Reef, the biggest coral reef in the world.'],
+    ['tasman-sea', 'the Tasman Sea', 'The Tasman Sea is between Australia and New Zealand.'],
+  ],
+  [
+    ['persian-gulf', 'the Persian Gulf', 'The Persian Gulf is a warm, shallow sea where people once dove for pearls.'],
+    ['gulf-of-guinea', 'the Gulf of Guinea', 'The Gulf of Guinea is under the bulge of Africa. The Equator and the Prime Meridian cross right in it.'],
+    ['labrador-sea', 'the Labrador Sea', 'The Labrador Sea is between Canada and Greenland. Icebergs float through it.'],
+    ['baffin-bay', 'Baffin Bay', 'Baffin Bay is between Greenland and Canada, and icy most of the year. Narwhals live there.'],
+    ['bay-of-biscay', 'the Bay of Biscay', 'The Bay of Biscay, by France and Spain, is famous for big waves and storms.'],
+    ['irish-sea', 'the Irish Sea', 'The Irish Sea is between Ireland and Great Britain.'],
+  ],
+  [
+    ['sargasso-sea', 'the Sargasso Sea', 'The Sargasso Sea is the only sea with no shore at all. It sits in the middle of the Atlantic, full of floating golden seaweed.'],
+    ['gulf-of-saint-lawrence', 'the Gulf of Saint Lawrence', 'The Gulf of Saint Lawrence is where the great Saint Lawrence River meets the sea, in Canada.'],
+    ['adriatic-sea', 'the Adriatic Sea', 'The Adriatic Sea is between Italy and the Balkans. The city of Venice sits right on it.'],
+    ['caspian-sea', 'the Caspian Sea', 'The Caspian Sea is really the biggest lake in the world, with salty water, between Europe and Asia.'],
+    ['weddell-sea', 'the Weddell Sea', 'The Weddell Sea is by Antarctica. The explorer Shackleton\'s ship got stuck in its ice.'],
+    ['ross-sea', 'the Ross Sea', 'The Ross Sea, by Antarctica, has penguins, seals and a giant shelf of ice.'],
+  ],
+  [
+    ['barents-sea', 'the Barents Sea', 'The Barents Sea is in the far north, by Norway and Russia.'],
+    ['sea-of-okhotsk', 'the Sea of Okhotsk', 'The Sea of Okhotsk freezes in winter, with ice floating down toward Japan.'],
+    ['philippine-sea', 'the Philippine Sea', 'The Philippine Sea is a deep sea east of the Philippines, with islands all around it.'],
+    ['yellow-sea', 'the Yellow Sea', 'The Yellow Sea is named for the yellow sand that rivers carry into it.'],
+    ['gulf-of-aden', 'the Gulf of Aden', 'The Gulf of Aden leads from the Arabian Sea into the Red Sea.'],
+    ['great-australian-bight', 'the Great Australian Bight', 'The Great Australian Bight is a huge curve along the south of Australia, where whales come to have their babies.'],
+  ],
+];
+
+// Smaller seas inside bigger ones: the map lights them up with the bigger sea, unless they're the one being asked about.
+const SEA_PARTS = {
+  'mediterranean-sea': ['adriatic-sea', 'aegean-sea', 'ionian-sea', 'tyrrhenian-sea', 'balearic-sea', 'golfe-du-lion'],
+  'baltic-sea': ['gulf-of-bothnia', 'gulf-of-finland'],
+  'hudson-bay': ['james-bay'],
+  'gulf-of-mexico': ['bahia-de-campeche'],
+  'caribbean-sea': ['gulf-of-honduras'],
+  'baffin-bay': ['melville-bay'],
+};
 
 // [code, name as said in a sentence, fact]. Sets go from big and famous to smaller and farther.
 const COUNTRY_SETS = [
@@ -195,6 +258,7 @@ const TOPICS = [
   { id: 'home', name: 'Where we live', note: 'our state, country, continent and ocean' },
   { id: 'continents', name: 'Continents', note: 'the seven big pieces of land' },
   { id: 'oceans', name: 'Oceans', note: 'the five oceans' },
+  { id: 'seas', name: 'Seas and bays', note: 'Hudson Bay, the Caribbean…' },
   { id: 'countries', name: 'Countries', note: 'find them on the map' },
   { id: 'flags', name: 'Flags', note: 'whose flag is it?' },
   { id: 'states', name: 'US states', note: 'all fifty' },
@@ -205,6 +269,7 @@ const HANDS = {
   home: 'Draw a map of your house or garden. Where do you sleep? Where is the big tree? Mark home with a star.',
   continents: 'Tear the seven continents out of colored paper and lay them on a blue towel ocean. Can {name} put them in the right places?',
   oceans: 'Stir a spoon of salt into a cup of water and taste a drop. That is why we can\'t drink ocean water.',
+  seas: 'Fill a baking tray with sand and water and make your own bay, gulf and sea with your hands. Which one is almost closed in?',
   countries: 'Find today\'s countries on a globe or in an atlas. What animals live there? What would you pack to visit?',
   flags: 'Design a flag for your family, with colors and a picture that mean something to you.',
   states: 'On your next drive, look for license plates from other states, and find them on the map at home.',

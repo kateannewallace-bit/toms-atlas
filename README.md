@@ -4,6 +4,8 @@ Geography for young kids who aren't reading yet, on the same chalkboard and engi
 
 - **Where we live:** our state, country, continent and ocean, with a star on home (Grass Valley, California) on every map.
 - **Continents and oceans:** a voice asks "Where is Africa?" and the child taps it on a world map colored like a classroom globe.
+- **Oceans have their real boundaries** (Natural Earth marine areas, assigned to oceans following the IHO's *Limits of Oceans and Seas*), so tapping Hudson Bay or the Norwegian Sea counts as the Arctic, and the Gulf of Mexico or the Mediterranean as the Atlantic. Each ocean is its own shade of blue.
+- **Seas and bays:** 36 of them in sets of six, starting with Hudson Bay, the Gulf of Mexico, the Caribbean, the Mediterranean, the Gulf of Alaska and the Bering Sea. Smaller seas light up with the bigger sea they belong to (the Aegean with the Mediterranean) unless they're the one being asked.
 - **Countries:** 65 countries in sets of six, from big and famous (the United States, Russia, Egypt, Greece) to smaller and farther. Four countries light up in different chalk colors; small countries get a close-up of their part of the world and a dashed ring that's easy to tap.
 - **Flags:** "Which flag belongs to Japan?" with four flags, and once a country is known, "Whose flag is this? Tap the country!"
 - **US states:** all fifty, starting with California and its neighbors.

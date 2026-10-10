@@ -5,6 +5,8 @@ where <data-dir> holds:
   countries-50m.json      from https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json
   states-albers-10m.json  from https://cdn.jsdelivr.net/npm/us-atlas@3.0.1/states-albers-10m.json
   countries.json          from https://cdn.jsdelivr.net/npm/world-countries@5.1.0/countries.json
+  ne_50m_geography_marine_polys.geojson
+                          from https://cdn.jsdelivr.net/gh/nvkelso/natural-earth-vector@v5.1.2/geojson/ne_50m_geography_marine_polys.geojson
 Map data: Natural Earth (public domain) via world-atlas and us-atlas.
 """
 import json, math, os, sys
@@ -225,7 +227,7 @@ OCEANS = {
     'southern': [[(-180, -60), (180, -60), (180, -90), (-180, -90)]],
 }
 # where each ocean's name is written, and where its "tap here" spot is
-OCEAN_LABEL = {'pacific': (-140, 5), 'atlantic': (-35, 15), 'indian': (78, -22), 'arctic': (-30, 80), 'southern': (40, -63)}
+OCEAN_LABEL = {'pacific': (-140, 5), 'atlantic': (-35, 15), 'indian': (78, -22), 'arctic': (-150, 76), 'southern': (40, -63)}
 oceans = {k: {'d': ''.join(path([dense(p)], tol=0.1, min_area=0) for p in polys), 'at': [round(v, 1) for v in proj(*OCEAN_LABEL[k])]} for k, polys in OCEANS.items()}
 sphere = path([dense([(-180, 90), (180, 90), (180, -90), (-180, -90)])], tol=0.1, min_area=0)
 
@@ -240,6 +242,63 @@ VIEWS = {
     'AF': view(-20, -36, 54, 38), 'AS': view(25, -11, 150, 60), 'AU': view(110, -48, 180, 0), 'OC': view(110, -48, 180, 0),
     'AN': view(-180, -90, 180, -50), 'ME': view(24, 10, 64, 43), 'CB': view(-92, 7, -58, 27),
 }
+
+# ---------- seas, bays and gulfs: Natural Earth marine areas, each belonging to an ocean ----------
+# Which ocean each marginal sea belongs to, following the IHO's Limits of Oceans and Seas
+# (so Hudson Bay, Baffin Bay and the Norwegian Sea are Arctic). Anything not listed goes by where it sits.
+SEA_OCEAN = {
+    'arctic': ['Arctic Ocean', 'Baffin Bay', 'Barents Sea', 'Beaufort Sea', 'Chukchi Sea', 'Greenland Sea', 'Hudson Bay', 'James Bay',
+               'Kara Sea', 'Laptev Sea', 'Melville Bay', 'White Sea', 'Amundsen Gulf', 'Ungava Bay', 'Norwegian Sea'],
+    'atlantic': ['North Atlantic Ocean', 'South Atlantic Ocean', 'Bahía de Campeche', 'Bay of Biscay', 'Bay of Fundy', 'Chesapeake Bay',
+                 'Golfe du Lion', 'Golfo San Jorge', 'Gulf of Bothnia', 'Gulf of Finland', 'Gulf of Guinea', 'Gulf of Honduras',
+                 'Gulf of Maine', 'Gulf of Mexico', 'Gulf of Saint Lawrence', 'Río de la Plata', 'Adriatic Sea', 'Aegean Sea',
+                 'Balearic Sea', 'Baltic Sea', 'Black Sea', 'Caribbean Sea', 'Inner Sea', 'Inner Seas', 'Ionian Sea', 'Irish Sea',
+                 'Labrador Sea', 'Mediterranean Sea', 'North Sea', 'Sargasso Sea', 'Tyrrhenian Sea', 'Scotia Sea'],
+    'indian': ['INDIAN OCEAN', 'Bay of Bengal', 'Gulf of Aden', 'Gulf of Kutch', 'Gulf of Mannar', 'Gulf of Oman', 'Persian Gulf',
+               'Great Australian Bight', 'Andaman Sea', 'Arabian Sea', 'Laccadive Sea', 'Red Sea', 'Timor Sea'],
+    'pacific': ['North Pacific Ocean', 'South Pacific Ocean', 'Bristol Bay', 'Cook Inlet', 'Bay of Plenty', 'Golfo de California',
+                'Golfo de Panamá', 'Gulf of Alaska', 'Gulf of Thailand', 'Gulf of Tonkin', 'Shelikhova Gulf', 'Banda Sea', 'Bering Sea',
+                'Bismarck Sea', 'Bo Hai', 'Celebes Sea', 'Ceram Sea', 'Coral Sea', 'East China Sea', 'Java Sea', 'Molucca Sea',
+                'Philippine Sea', 'Sea of Japan', 'Sea of Okhotsk', 'Solomon Sea', 'South China Sea', 'Sulu Sea', 'Tasman Sea',
+                'Yellow Sea', 'Arafura Sea', 'Gulf of Carpentaria'],
+    'southern': ['SOUTHERN OCEAN', 'Amundsen Sea', 'Bellingshausen Sea', 'Ross Sea', 'Weddell Sea'],
+    '': ['Caspian Sea'],  # a lake, not part of any ocean
+}
+OCEAN_OF = {name: k for k, names in SEA_OCEAN.items() for name in names}
+def inside(pt, poly):
+    x, y = pt; hit = False
+    for i in range(len(poly)):
+        (x0, y0), (x1, y1) = poly[i - 1], poly[i]
+        if (y0 > y) != (y1 > y) and x < x0 + (y - y0) * (x1 - x0) / (y1 - y0): hit = not hit
+    return hit
+def ocean_at(lon, lat):
+    for k, polys in OCEANS.items():
+        if any(inside((lon, lat), p) for p in polys): return k
+    return ''
+import unicodedata
+slug = lambda s: '-'.join(''.join(ch if ch.isascii() and ch.isalnum() else '' if unicodedata.combining(ch) else ' ' for ch in unicodedata.normalize('NFD', s.lower())).split())
+marine = json.load(open(os.path.join(SRC, 'ne_50m_geography_marine_polys.geojson')))
+water, seas = [], {}
+for f in marine['features']:
+    cla, name = f['properties']['featurecla'], f['properties']['name']
+    g = f['geometry']
+    polys = [g['coordinates']] if g['type'] == 'Polygon' else g['coordinates']
+    rings = [r2 for poly in polys for r2 in fix_antimeridian([tuple(p) for p in poly[0]])]
+    if not rings: continue
+    big_ll = max(rings, key=area)
+    ocean = OCEAN_OF.get(name)
+    if ocean is None: ocean = ocean_at(*centroid(big_ll))
+    pr = [[proj(x, y) for x, y in r] for r in rings]
+    d = path(pr, tol=0.3, min_area=0.5)
+    if not d: continue
+    key = slug(name) if cla in ('sea', 'bay', 'gulf') else ''
+    # oceans first, then seas on top, so every sea shows over the ocean around it
+    water.append([0 if cla == 'ocean' else 1, ocean, key, d])
+    if key:
+        big = biggest(pr); cx, cy = centroid(big)
+        seas[key] = [name, round(cx, 1), round(cy, 1), round(sum(area(r) for r in pr), 1), ocean]
+water.sort(key=lambda w: w[0])
+water = [w[1:] for w in water]
 
 # ---------- United States (already projected, Albers with Alaska and Hawaii moved) ----------
 us = json.load(open(os.path.join(SRC, 'states-albers-10m.json')))
@@ -273,7 +332,7 @@ names = {c['cca2']: c['name']['common'] for c in meta.values()}
 names['XK'] = 'Kosovo'
 used = {sh[0] for sh in shapes}
 data = {
-    'world': {'w': W, 'h': H, 'sphere': sphere, 'shapes': shapes, 'names': {k: v for k, v in names.items() if k in used}, 'oceans': oceans, 'views': VIEWS},
+    'world': {'w': W, 'h': H, 'sphere': sphere, 'shapes': shapes, 'names': {k: v for k, v in names.items() if k in used}, 'oceans': oceans, 'water': water, 'seas': seas, 'views': VIEWS},
     'us': {'w': 975, 'h': 610, 'shapes': ushapes},
     'home': {'world': [round(v, 1) for v in proj(*HOME)], 'us': [round(v, 1) for v in albers_usa(*HOME)]},
 }

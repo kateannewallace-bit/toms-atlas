@@ -394,3 +394,20 @@ input:focus-visible, select:focus-visible { outline: 3px solid var(--yellow); ou
   .pp-map .home-star { fill: #1d1d1d; }
   .pp-key { font-size: 13pt; line-height: 1.6; }
 }
+
+/* oceans with their seas, each ocean its own shade of blue; seas and bays as places to pick */
+.map.show-oceans .ocean { stroke: none; }
+.map.show-oceans .oc-pacific { fill: #2e4952; }
+.map.show-oceans .oc-atlantic { fill: #2d4d4b; }
+.map.show-oceans .oc-indian { fill: #343f55; }
+.map.show-oceans .oc-arctic { fill: #46585e; }
+.map.show-oceans .oc-southern { fill: #3a4b4f; }
+.map.show-oceans .ocean.no { fill: #5a3f48; }
+.map.show-oceans .ocean.ok { fill: #4f7d52; }
+.map.show-oceans .ocean.lit { fill: #6a95ad; }
+.map.show-seas .land { pointer-events: none; fill: #3f4c46; stroke: #2b3631; }
+.map .water { stroke: none; fill-opacity: .85; }
+.map .water.plain { fill: #33505a; }
+.map .water.opt { cursor: pointer; }
+.map .water.lit { fill: var(--blue); }
+.map .water.ok { fill: var(--green); }

@@ -22,6 +22,8 @@ for (const s of WORLD.shapes) {
 }
 for (const c of Object.values(COUNTRY)) Object.assign(c, { cont: c.big[1], cx: c.big[3], cy: c.big[4], name: WORLD.names[c.code] || c.code });
 const STATE = Object.fromEntries(USMAP.shapes.map(s => [s[0], { code: s[0], name: s[1], d: s[2], cx: s[3], cy: s[4], size: s[5] }]));
+const SEA = Object.fromEntries(Object.entries(WORLD.seas).map(([k, v]) => [k, { code: k, name: v[0], cx: v[1], cy: v[2], size: v[3], ocean: v[4] }]));
+const SEA_PARENT = Object.fromEntries(Object.entries(SEA_PARTS).flatMap(([k, parts]) => parts.map(p => [p, k])));
 const flagOf = code => String.fromCodePoint(...[...code].map(ch => 0x1F1E6 + ch.charCodeAt(0) - 65));
 // Small countries are asked on a close-up of their part of the world.
 const WORLD_VIEW_MIN = 400;
@@ -29,6 +31,15 @@ const VIEW_OF = { IL: 'ME', JM: 'CB', CU: 'CB' };
 function viewFor(code) {
   const c = COUNTRY[code];
   return c.size >= WORLD_VIEW_MIN ? WORLD.views.world : WORLD.views[VIEW_OF[code] || c.cont];
+}
+// Seas are drawn bigger than they look (their outlines run under the land), so the bar for the whole-world view is higher.
+// A small sea gets the smallest close-up that holds it.
+function seaView(key) {
+  const s = SEA[key];
+  if (s.size >= 800) return WORLD.views.world;
+  const fits = Object.entries(WORLD.views).filter(([k, v]) => k !== 'world' && k !== 'OC' && inView([v[0] + v[2] * 0.12, v[1] + v[3] * 0.12, v[2] * 0.76, v[3] * 0.76], s.cx, s.cy));
+  fits.sort((a, b) => a[1][2] * a[1][3] - b[1][2] * b[1][3]);
+  return fits.length ? fits[0][1] : WORLD.views.world;
 }
 // where a continent's name goes: the middle of its land, weighted by size
 const CONT_AT = {};
@@ -44,6 +55,8 @@ const CONT = Object.fromEntries(CONTINENTS.map(([id, name, fact]) => [id, { wid:
 const OCEAN = Object.fromEntries(OCEANS.map(([id, name, fact]) => [id, { wid: 'ocean:' + id, kind: 'ocean', id, name, fact }]));
 const CTRY = {};
 for (const set of COUNTRY_SETS) for (const [id, name, fact] of set) CTRY[id] = { wid: 'country:' + id, kind: 'country', id, name, fact };
+const SEAI = {};
+for (const set of SEA_SETS) for (const [id, name, fact] of set) SEAI[id] = { wid: 'sea:' + id, kind: 'sea', id, name, fact };
 const ST = {};
 for (const set of STATE_SETS) for (const [id, fact] of set) ST[id] = { wid: 'state:' + id, kind: 'state', id, name: STATE[id].name, fact };
 const FLAG = Object.fromEntries(Object.values(CTRY).map(c => [c.id, { wid: 'flag:' + c.id, kind: 'flag', id: c.id, name: c.name, fact: `This is the flag of ${c.name}.` }]));
@@ -58,6 +71,7 @@ const ORDER = TOPICS.map(t => t.id);
 TOPIC.home.sets = [HOME_ITEMS];
 TOPIC.continents.sets = CONTINENT_SETS.map(s => s.map(id => CONT[id]));
 TOPIC.oceans.sets = OCEAN_SETS.map(s => s.map(id => OCEAN[id]));
+TOPIC.seas.sets = SEA_SETS.map(s => s.map(c => SEAI[c[0]]));
 TOPIC.countries.sets = COUNTRY_SETS.map(s => s.map(c => CTRY[c[0]]));
 TOPIC.flags.sets = COUNTRY_SETS.map(s => s.map(c => FLAG[c[0]]));
 TOPIC.states.sets = STATE_SETS.map(s => s.map(c => ST[c[0]]));
@@ -232,9 +246,9 @@ const inView = (v, x, y) => x >= v[0] && x <= v[0] + v[2] && y >= v[1] && y <= v
 /* Three other countries (or states) to tap, all on the same map view.
    Places already met come first, and a brand-new place is easiest to find next to places already known. */
 function others(t, view) {
-  const isState = t.kind === 'state';
-  const k = isState ? 'states' : t.kind === 'flag' ? 'flags' : 'countries';
-  const where = code => isState ? STATE[code] : COUNTRY[code];
+  const isState = t.kind === 'state', isSea = t.kind === 'sea';
+  const k = isState ? 'states' : isSea ? 'seas' : t.kind === 'flag' ? 'flags' : 'countries';
+  const where = code => isState ? STATE[code] : isSea ? SEA[code] : COUNTRY[code];
   const fits = code => code !== t.id && where(code) && (isState ? code !== 'DC' : inView(view, where(code).cx, where(code).cy));
   const met = eligible(k, state.levels[k]).map(w => w.id).filter(fits);
   let pool = met;
@@ -242,18 +256,18 @@ function others(t, view) {
   // then the topic's other places, then any big enough place on this view
   const minSize = isState ? 0 : (view[2] / 1000) ** 2 * 40;
   if (pool.length < 3) pool = pool.concat(shuffle(allItems(k).map(w => w.id).filter(id => fits(id) && !pool.includes(id))));
-  if (pool.length < 3) pool = pool.concat(shuffle((isState ? Object.keys(STATE) : Object.keys(COUNTRY)).filter(id => fits(id) && !pool.includes(id) && where(id).size >= minSize)));
+  if (pool.length < 3) pool = pool.concat(shuffle(Object.keys(isState ? STATE : isSea ? SEA : COUNTRY).filter(id => fits(id) && !pool.includes(id) && where(id).size >= minSize)));
   return shuffle(pool).slice(0, 3);
 }
-const nameOf = (kind, id) => kind === 'state' ? (ST[id]?.name || STATE[id].name) : (CTRY[id]?.name || COUNTRY[id]?.name || id);
+const nameOf = (kind, id) => kind === 'state' ? (ST[id]?.name || STATE[id].name) : kind === 'sea' ? (SEAI[id]?.name || SEA[id].name) : (CTRY[id]?.name || COUNTRY[id]?.name || id);
 const PRAISE = ['Yes!', 'Right!', 'You found it!', 'Well done!', 'That\'s it!'];
 // kind: 'current' (the current level), 'easier' (an earlier set), 'stretch' (a place from the next set), 'again' (spaced review), 'check' (quick check)
 function genPlace(k, L, kind, wid, avoid = new Set(), gate) {
   const t = (wid && findItem(k, wid)) || pickTarget(k, L, kind, avoid, gate);
   const p = { wid: t.wid, item: t, name: t.name, fact: t.fact, place: t.kind, id: t.id, home: !!t.home };
   const mapKind = t.kind === 'state' ? 'us' : 'world';
-  const view = t.kind === 'state' ? null : t.kind === 'country' || t.kind === 'flag' ? viewFor(t.id) : WORLD.views.world;
-  p.map = { kind: mapKind, view, show: t.kind === 'continent' ? 'continents' : t.kind === 'ocean' ? 'oceans' : 'places' };
+  const view = t.kind === 'state' ? null : t.kind === 'country' || t.kind === 'flag' ? viewFor(t.id) : t.kind === 'sea' ? seaView(t.id) : WORLD.views.world;
+  p.map = { kind: mapKind, view, show: t.kind === 'continent' ? 'continents' : t.kind === 'ocean' ? 'oceans' : t.kind === 'sea' ? 'seas' : 'places' };
   const ask = t.ask || pick([`Where is ${t.name}?`, `Can you find ${t.name}?`, `Show me ${t.name}!`]);
   // Say it: a known place is lit up on the map and named out loud.
   if (state.sayIt && t.kind !== 'flag' && !t.home && kind !== 'stretch' && kind !== 'check' && isKnown(t.wid) && rng() < 0.3) {
@@ -315,7 +329,16 @@ function mapSvg(o) {
   } else {
     body += `<path d="${WORLD.sphere}" class="sea"/>`;
     if (o.show === 'oceans') {
-      for (const [id] of OCEANS) body += `<path d="${WORLD.oceans[id].d}" class="ocean ${cls(id)}"${pickAttr(id)}/>`;
+      // rough ocean areas underneath, then the real outlines of every ocean part and sea, each tapping as its ocean
+      for (const [id] of OCEANS) body += `<path d="${WORLD.oceans[id].d}" class="ocean oc-${id} ${cls(id)}"${pickAttr(id)}/>`;
+      for (const [oc, , d] of WORLD.water) if (oc) body += `<path d="${d}" class="ocean oc-${oc} ${cls(oc)}"${pickAttr(oc)}/>`;
+    }
+    if (o.show === 'seas') {
+      // a part of a bigger sea (the Aegean in the Mediterranean) goes with the bigger sea, unless it's a choice itself
+      for (const [, part, d] of WORLD.water) {
+        const key = idx.has(part) || o.lit === part ? part : SEA_PARENT[part];
+        if (key && (idx.has(key) || o.lit === key)) body += `<path d="${d}" class="water ${cls(key) || 'plain'}"${pickAttr(key)}/>`;
+      }
     }
     const zoomed = view[2] < 999;
     for (const s of WORLD.shapes) {
@@ -323,15 +346,15 @@ function mapSvg(o) {
       if (zoomed && !inView([view[0] - view[2] * 0.5, view[1] - view[3] * 0.5, view[2] * 2, view[3] * 2], cx, cy) && COUNTRY[code].size < 3000) continue;
       let c = '', attr = '';
       if (o.show === 'continents') { c = cont === 'OC' ? '' : `ct ct-${cont} ${cls(cont)}`; attr = pickAttr(cont); }
-      else if (o.show === 'oceans') c = 'dim';
+      else if (o.show === 'oceans' || o.show === 'seas') c = 'dim';
       else if (o.show === 'known') c = isKnown('country:' + code) ? 'known' : `ct-soft ct-${cont}`;
       else if (o.show === 'print') c = '';
       else { c = cls(code); attr = pickAttr(code); }
       body += `<path d="${d}" class="land ${c}"${attr}/>`;
     }
-    if (o.show === 'places') {
+    if (o.show === 'places' || o.show === 'seas') {
       for (const key of [...idx.keys(), o.lit].filter(Boolean)) {
-        const c = COUNTRY[key];
+        const c = o.show === 'seas' ? SEA[key] : COUNTRY[key];
         if (c && Math.sqrt(c.size) < view[2] * 0.02) rings += `<circle cx="${c.cx}" cy="${c.cy}" r="${(view[2] * 0.03).toFixed(1)}" class="ring ${cls(key)}"${pickAttr(key)}/>`;
       }
     }
@@ -342,6 +365,7 @@ function mapSvg(o) {
     for (const key of o.labels) {
       if (us && STATE[key]) labels += text(STATE[key].cx, STATE[key].cy - 18, STATE[key].name);
       else if (!us && COUNTRY[key]) labels += text(COUNTRY[key].cx, COUNTRY[key].cy - view[2] * 0.04, CTRY[key] ? cap(CTRY[key].name) : COUNTRY[key].name);
+      else if (!us && SEA[key] && o.show === 'seas') labels += text(SEA[key].cx, SEA[key].cy, cap(SEAI[key]?.name || SEA[key].name));
       else if (CONT_AT[key]) labels += text(CONT_AT[key].x, CONT_AT[key].y, CONT[key].name);
       else if (WORLD.oceans[key]) labels += text(WORLD.oceans[key].at[0], WORLD.oceans[key].at[1], cap(OCEAN[key].name.replace(/^the /, '')));
     }
@@ -370,7 +394,7 @@ let screen = 'home', sess = null, lastChanges = [], confirmWipe = false, wiped =
 const REVIEW_DAYS = [1, 3, 7, 14, 30];
 const DAY = 864e5;
 const startOfDay = () => new Date().setHours(0, 0, 0, 0);
-const UNLOCK_ORDER = ['home', 'continents', 'oceans', 'countries', 'states', 'flags'];
+const UNLOCK_ORDER = ['home', 'continents', 'oceans', 'seas', 'countries', 'states', 'flags'];
 function readyToStretch(k) {
   const r = (state.rec[k] || []).slice(-6);
   return r.length >= 4 && r.filter(Boolean).length / r.length >= 0.75;
@@ -437,7 +461,7 @@ function startSession() { sess = buildSession(); screen = 'play'; render(); auto
 
 /* Quick check: a placement round. Four places from each main topic, earliest unknown first, one try each.
    Right on the first try marks the place known; a miss just notes it was checked, with no review card. */
-const CHECK_TOPICS = ['continents', 'oceans', 'countries', 'states', 'flags'];
+const CHECK_TOPICS = ['continents', 'oceans', 'seas', 'countries', 'states'];
 function buildCheck() {
   const probs = [];
   for (const k of CHECK_TOPICS) {
@@ -860,7 +884,7 @@ function renderSync() {
 /* a map to color: outlines, the home star, and the names of places to find */
 function printMap(kind) {
   const us = kind === 'us';
-  const names = (us ? allItems('states') : [...allItems('continents'), ...allItems('oceans'), ...allItems('countries')]).filter(w => isKnown(w.wid) || isSeen(w.wid)).map(w => cap(w.name));
+  const names = (us ? allItems('states') : [...allItems('continents'), ...allItems('oceans'), ...allItems('seas'), ...allItems('countries')]).filter(w => isKnown(w.wid) || isSeen(w.wid)).map(w => cap(w.name));
   document.getElementById('print').innerHTML = `
     <header class="pp-head"><h1>${childName() ? `${esc(childName())}'s map` : 'My map'}</h1><span>${new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })}</span></header>
     <div class="pp-map">${mapSvg({ kind: us ? 'us' : 'world', show: 'print' })}</div>
