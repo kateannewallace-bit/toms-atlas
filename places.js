@@ -49,7 +49,7 @@ const SEA_SETS = [
   ],
   [
     ['aegean-sea', 'the Aegean Sea', 'The Aegean Sea is full of Greek islands. In the myths, it is named after King Aegeus, the father of Theseus.'],
-    ['arabian-sea', 'the Arabian Sea', 'The Arabian Sea is part of the Indian Ocean, where the stories of Sinbad the Sailor are set.'],
+    ['arabian-sea', 'the Arabian Sea', 'The Arabian Sea is part of the Indian Ocean, between Arabia and India. Sailors have crossed it for thousands of years.'],
     ['south-china-sea', 'the South China Sea', 'The South China Sea is a big sea in Asia, with hundreds of tiny islands and reefs.'],
     ['sea-of-japan', 'the Sea of Japan', 'The Sea of Japan is between Japan and the mainland of Asia.'],
     ['coral-sea', 'the Coral Sea', 'The Coral Sea has the Great Barrier Reef, the biggest coral reef in the world.'],
@@ -113,7 +113,7 @@ const COUNTRY_SETS = [
     ['GR', 'Greece', 'Greece is where the Greek myths come from: Zeus, Athena and Odysseus.'],
     ['IT', 'Italy', 'Italy is shaped like a boot. Ancient Rome was there.'],
     ['ES', 'Spain', 'Spain is sunny, with old castles and flamenco dancing.'],
-    ['DE', 'Germany', 'Germany has deep, dark forests. The Brothers Grimm collected their fairy tales there.'],
+    ['DE', 'Germany', 'Germany has deep, dark forests. Many fairy tales, like Hansel and Gretel, come from there.'],
     ['AR', 'Argentina', 'Argentina reaches far south, close to Antarctica. Cowboys called gauchos ride horses on its grasslands.'],
     ['ZA', 'South Africa', 'South Africa is at the very bottom of Africa. Penguins live on its beaches!'],
   ],
@@ -143,7 +143,7 @@ const COUNTRY_SETS = [
   ],
   [
     ['GL', 'Greenland', 'Greenland is the biggest island in the world, almost all covered in ice.'],
-    ['DK', 'Denmark', 'Denmark is where Hans Christian Andersen wrote The Little Mermaid.'],
+    ['DK', 'Denmark', 'Denmark is one of the lands the Vikings came from, along with Norway and Sweden.'],
     ['NL', 'the Netherlands', 'The Netherlands is very flat, with windmills, tulips and canals.'],
     ['CH', 'Switzerland', 'Switzerland is in the Alps, the snowy mountains of Europe.'],
     ['PT', 'Portugal', 'Portugal is on the Atlantic Ocean. Long ago, its sailors explored the world.'],
@@ -213,7 +213,7 @@ const STATE_SETS = [
     ['GA', 'Georgia grows peaches and peanuts.'],
     ['IL', 'Illinois has the big city of Chicago, on Lake Michigan.'],
     ['OK', 'Oklahoma has wide plains and big thunderstorms.'],
-    ['KS', 'Kansas is flat and full of wheat fields. The Wizard of Oz story starts there.'],
+    ['KS', 'Kansas is flat and full of wheat fields, with big summer thunderstorms.'],
     ['NE', 'Nebraska has big prairies where sandhill cranes stop on their long flight.'],
   ],
   [

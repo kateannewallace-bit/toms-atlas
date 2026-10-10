@@ -125,12 +125,12 @@ const FUN_FACTS = {
   IS: [
     'Iceland has no mosquitoes at all.',
     'Many homes in Iceland are heated with hot water from under the ground.',
-    'The Viking sagas, long adventure stories, were written down in Iceland.',
+    'Vikings in Iceland started a parliament more than a thousand years ago. It is one of the oldest in the world.',
   ],
   NZ: [
     'New Zealand was the first country where women could vote, in 1893.',
     'There are more sheep in New Zealand than people.',
-    'The Lord of the Rings films were made in New Zealand.',
+    'The kiwi, New Zealand\'s bird, can\'t fly, and it lays one of the biggest eggs for its size of any bird.',
   ],
   TR: [
     'Istanbul is a city on two continents, Europe and Asia.',
@@ -190,7 +190,7 @@ const FUN_FACTS = {
   DK: [
     'LEGO bricks were invented in Denmark.',
     'Denmark\'s flag is the oldest country flag still in use.',
-    'A statue of the Little Mermaid sits by the water in Copenhagen.',
+    'Denmark has more than four hundred islands.',
   ],
   NL: [
     'About a quarter of the Netherlands is lower than the sea, kept dry by walls called dikes.',
@@ -263,7 +263,7 @@ const FUN_FACTS = {
     'Couscous, tiny grains of pasta, is a favorite food in Algeria.',
   ],
   TN: [
-    'Scenes for Luke Skywalker\'s desert home in Star Wars were filmed in Tunisia.',
+    'Tunisia has a giant Roman arena at El Djem, where gladiators once fought.',
     'Hannibal, from Carthage, marched elephants over the Alps to attack Rome.',
     'In Matmata, people live in houses dug into the ground to stay cool.',
   ],
@@ -280,7 +280,7 @@ const FUN_FACTS = {
   VE: [
     'Angel Falls is so tall that some of its water turns to mist before it reaches the bottom.',
     'Over Lake Maracaibo in Venezuela, lightning flashes on most nights of the year.',
-    'Venezuela has tepuis, flat-topped mountains that inspired a story about a lost world of dinosaurs.',
+    'Venezuela has tepuis, flat-topped mountains so tall and steep that some plants and frogs on top live nowhere else.',
   ],
   BO: [
     'Bolivia has two capital cities, La Paz and Sucre.',
@@ -310,11 +310,11 @@ const FUN_FACTS = {
   FI: [
     'Finland has millions of saunas, about one for every two people.',
     'Many people say Santa Claus lives in Lapland, in the north of Finland.',
-    'The Moomins, the gentle cartoon trolls, were created in Finland.',
+    'In the north of Finland, the Sámi people herd reindeer.',
   ],
   CZ: [
     'Prague Castle is one of the biggest castles in the world.',
-    'The word "robot" was first used by a Czech writer.',
+    'Czechia has more than two thousand castles.',
     'Prague\'s old astronomical clock has been ticking for more than six hundred years.',
   ],
   HU: [
@@ -333,18 +333,18 @@ const FUN_FACTS = {
 const STATE_FACTS = {
   CA: [
     'In 1848, gold was found at Sutter\'s Mill, and thousands of people rushed to California to dig for it.',
-    'Mark Twain\'s first famous story was about a jumping frog contest in California\'s gold country.',
+    'Death Valley, in California, is the hottest place ever measured on Earth.',
     'California\'s coast redwoods are the tallest trees in the world.',
   ],
   NV: [
-    'Samuel Clemens first signed his name "Mark Twain" while writing for a newspaper in Virginia City, Nevada.',
+    'The giant Hoover Dam, on the edge of Nevada, holds back the Colorado River to make Lake Mead.',
     'Nevada became a state during the Civil War, so its motto is "Battle Born."',
     'Some of the oldest living trees on Earth, bristlecone pines thousands of years old, grow in Nevada\'s mountains.',
   ],
   OR: [
     'Pioneers walked about two thousand miles beside their covered wagons on the Oregon Trail.',
     'Lewis and Clark spent a rainy winter at the Pacific Ocean in Oregon, at the end of their long journey west.',
-    'Beverly Cleary\'s stories about Ramona Quimby and Henry Huggins are set in Portland, Oregon.',
+    'Puffins nest on Haystack Rock, a giant rock standing in the sea on Oregon\'s coast.',
   ],
   AZ: [
     'The oldest rocks at the bottom of the Grand Canyon are almost two billion years old.',
@@ -378,7 +378,7 @@ const STATE_FACTS = {
   ],
   NY: [
     'The Statue of Liberty was a present to the United States from France.',
-    'Washington Irving\'s spooky tale of the Headless Horseman, The Legend of Sleepy Hollow, is set in New York.',
+    'Niagara Falls, on New York\'s border with Canada, pours out more water than almost any waterfall on Earth.',
     'New York City was once a Dutch town called New Amsterdam.',
   ],
   UT: [
@@ -392,7 +392,7 @@ const STATE_FACTS = {
     'Astronauts visited Idaho\'s Craters of the Moon to practice studying rocks before going to the Moon.',
   ],
   CO: [
-    'The song "America the Beautiful" was written after the writer climbed to the top of Pikes Peak in Colorado.',
+    'Colorado has more than fifty mountains over fourteen thousand feet tall.',
     'At Mesa Verde, Ancestral Pueblo people built whole villages into the sides of cliffs.',
     'Colorado has the tallest sand dunes in North America.',
   ],
@@ -422,8 +422,8 @@ const STATE_FACTS = {
     'Michigan touches four of the five Great Lakes.',
   ],
   ME: [
-    'E. B. White wrote Charlotte\'s Web on his farm in Maine, in a barn much like Wilbur\'s.',
-    'The poet Henry Wadsworth Longfellow, who wrote "Paul Revere\'s Ride," was born in Maine.',
+    'Maine grows most of the wild blueberries in the United States.',
+    'Thousands of moose live in the North Woods of Maine.',
     'For part of the year, the top of Cadillac Mountain in Maine is the first place in the United States to see the sunrise.',
   ],
   GA: [
@@ -443,13 +443,13 @@ const STATE_FACTS = {
   ],
   KS: [
     'Amelia Earhart, the famous pilot who flew alone across the Atlantic, was born in Kansas.',
-    'Laura Ingalls Wilder\'s book Little House on the Prairie is about her family\'s time in Kansas.',
+    'Long ago, huge herds of bison roamed the Kansas prairie.',
     'The middle of the forty-eight states next to each other is in Kansas.',
   ],
   NE: [
     'Arbor Day, a holiday for planting trees, was started in Nebraska.',
     'Pioneers on the Oregon Trail looked out for Chimney Rock in Nebraska, a tall rock shaped like a chimney.',
-    'Willa Cather wrote My Ántonia, a famous book about pioneer families on the Nebraska prairie.',
+    'Nebraska has the biggest train yard in the world, where trains are sorted and fixed.',
   ],
   ND: [
     'Theodore Roosevelt was a cowboy on a ranch in North Dakota, and a national park there is named after him.',
@@ -458,13 +458,13 @@ const STATE_FACTS = {
   ],
   SD: [
     'Sue, one of the biggest and most complete T. rex skeletons ever found, was dug up in South Dakota.',
-    'Laura Ingalls Wilder\'s family settled in De Smet, South Dakota, the town in Little Town on the Prairie.',
+    'The walls of Wind Cave in South Dakota are covered in a rock pattern that looks like honeycomb.',
     'A giant carving of the Lakota leader Crazy Horse is being made in a mountain in South Dakota. It will be even bigger than Mount Rushmore.',
   ],
   MN: [
     'The mighty Mississippi River starts in Minnesota as a stream so small you can walk across it on stepping stones.',
     'In the tall tales, the giant lumberjack Paul Bunyan and Babe the blue ox made Minnesota\'s lakes with their footprints.',
-    'Laura Ingalls Wilder\'s book On the Banks of Plum Creek is set in Minnesota.',
+    'The Mall of America in Minnesota is so big it has a theme park with roller coasters inside.',
   ],
   IA: [
     'The farmhouse in the famous painting American Gothic, with the farmer holding a pitchfork, is in Iowa.',
@@ -472,7 +472,7 @@ const STATE_FACTS = {
     'Herbert Hoover, born in Iowa, was the first president born west of the Mississippi River.',
   ],
   MO: [
-    'Mark Twain grew up in Hannibal, Missouri, the town that became Tom Sawyer\'s town in his book.',
+    'Ice cream cones became famous at the World\'s Fair in Saint Louis, Missouri, in 1904.',
     'The Pony Express, riders carrying mail on fast horses, started in Saint Joseph, Missouri.',
     'Lewis and Clark set off from near Saint Louis in 1804 to explore the West.',
   ],
@@ -483,7 +483,7 @@ const STATE_FACTS = {
   ],
   WI: [
     'The first kindergarten in the United States opened in Wisconsin in 1856.',
-    'Laura Ingalls Wilder was born in Wisconsin, in the house from Little House in the Big Woods.',
+    'Wisconsin has more than fifteen thousand lakes.',
     'Harry Houdini, the famous escape artist, grew up in Wisconsin.',
   ],
   OH: [
@@ -514,12 +514,12 @@ const STATE_FACTS = {
   AL: [
     'In 1955, Rosa Parks refused to give up her bus seat in Montgomery, Alabama, and helped change unfair laws.',
     'Helen Keller, who could not see or hear but learned to read, write and speak, was born in Alabama.',
-    'Harper Lee\'s famous novel To Kill a Mockingbird is set in a small town in Alabama.',
+    'Mobile, Alabama, says it had the first Mardi Gras parade in America, even before New Orleans.',
   ],
   SC: [
     'The first shots of the Civil War were fired at Fort Sumter, in South Carolina, in 1861.',
     'In 1718, the pirate Blackbeard blocked the harbor of Charleston with his ships.',
-    'Edgar Allan Poe set his treasure-hunting story The Gold-Bug on an island in South Carolina.',
+    'Charleston, South Carolina, has a street of old houses painted in bright colors, called Rainbow Row.',
   ],
   NC: [
     'Virginia Dare, the first English baby born in America, was born on Roanoke Island. Her whole colony later vanished.',
@@ -557,8 +557,8 @@ const STATE_FACTS = {
     'Swedish settlers in Delaware built some of the first log cabins in America.',
   ],
   CT: [
-    'Mark Twain wrote The Adventures of Tom Sawyer while living in Hartford, Connecticut.',
-    'The first nuclear submarine, the Nautilus, named after the submarine in Jules Verne\'s story, was built in Connecticut.',
+    'At Mystic Seaport in Connecticut, you can climb aboard an old wooden whaling ship.',
+    'The first nuclear submarine, the Nautilus, was built in Connecticut. It once sailed under the ice at the North Pole.',
     'The first telephone book ever was printed in New Haven, Connecticut. It had fifty names.',
   ],
   RI: [
@@ -568,16 +568,16 @@ const STATE_FACTS = {
   ],
   MA: [
     'At the Boston Tea Party in 1773, colonists dumped crates of tea into Boston Harbor to protest a tax.',
-    'Paul Revere rode at midnight to warn that British soldiers were coming. A famous poem tells the story.',
-    'The book Make Way for Ducklings is about a duck family crossing a busy street in Boston.',
+    'Paul Revere rode at midnight to warn that British soldiers were coming.',
+    'Harvard, in Massachusetts, is the oldest college in the United States.',
   ],
   VT: [
-    'Rudyard Kipling wrote The Jungle Book while living in Vermont.',
+    'Vermont has more than a hundred old covered bridges.',
     'For fourteen years, Vermont was its own little country before it joined the United States.',
     'A farmer in Vermont, Wilson Bentley, took the first ever photograph of a single snowflake.',
   ],
   NH: [
-    'The poet Robert Frost lived on a farm in New Hampshire and wrote poems about its woods and walls.',
+    'In 1934, a gust of wind at 231 miles an hour was measured on top of Mount Washington in New Hampshire.',
     'A rock face called the Old Man of the Mountain looked out from a cliff in New Hampshire for thousands of years.',
     'New Hampshire\'s motto is "Live Free or Die."',
   ],
@@ -598,7 +598,7 @@ const SEA_FACTS = {
   'caribbean-sea': [
     'Christopher Columbus\'s ships reached the islands of the Caribbean in 1492.',
     'Port Royal in Jamaica was a famous pirate town, until an earthquake sank much of it into the sea in 1692.',
-    'Robinson Crusoe\'s island, in the famous shipwreck story, is in the Caribbean Sea.',
+    'The coral reefs of the Caribbean are home to sea turtles, parrotfish and seahorses.',
   ],
   'mediterranean-sea': [
     'Mediterranean means "in the middle of the land."',
@@ -617,7 +617,7 @@ const SEA_FACTS = {
   ],
   'golfo-de-california': [
     'The explorer Jacques Cousteau called the Gulf of California "the world\'s aquarium."',
-    'The author John Steinbeck sailed it with a scientist friend and wrote a book about the sea creatures they found.',
+    'Huge groups of rays leap out of the water in the Gulf of California, flapping like birds.',
     'The vaquita, the smallest porpoise in the world, lives only here.',
   ],
   'red-sea': [
@@ -676,7 +676,7 @@ const SEA_FACTS = {
     'In 1928, a pilot named Charles Kingsford Smith made the first flight across the Tasman Sea.',
   ],
   'persian-gulf': [
-    'In the Arabian Nights, Sinbad the Sailor sets out from Basra, at the top of the Persian Gulf.',
+    'In Bahrain, an island country in the Persian Gulf, a single tree called the Tree of Life grows all alone in the desert.',
     'The ancient Sumerians told of Dilmun, a magical land in the gulf where no one grew old.',
     'Gentle sea cows called dugongs graze on sea grass in the Persian Gulf.',
   ],
@@ -696,7 +696,7 @@ const SEA_FACTS = {
     'In 1845, whalers in Baffin Bay saw the ships of the explorer John Franklin. After that, his expedition was never seen again.',
   ],
   'bay-of-biscay': [
-    'Jules Verne, who wrote Twenty Thousand Leagues Under the Sea, grew up in Nantes, near the Bay of Biscay.',
+    'Surfing in Europe began in Biarritz, a town on the Bay of Biscay.',
     'Long ago, Basque sailors from the bay\'s shores were some of the first people to hunt whales far out at sea.',
     'Dolphins and whales are often seen from the ferries that cross the bay.',
   ],
@@ -711,7 +711,7 @@ const SEA_FACTS = {
     'Part of the Sargasso Sea is in the Bermuda Triangle, where many stories say ships disappeared.',
   ],
   'gulf-of-saint-lawrence': [
-    'Anne of Green Gables lives on Prince Edward Island, in the Gulf of Saint Lawrence.',
+    'Whales, even giant blue whales, swim into the Gulf of Saint Lawrence to feed.',
     'The French explorer Jacques Cartier sailed into the gulf in 1534.',
     'Vikings built a village nearby, on the tip of Newfoundland, about a thousand years ago.',
   ],
