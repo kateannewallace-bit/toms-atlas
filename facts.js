@@ -572,7 +572,7 @@ const STATE_FACTS = {
     'Harvard, in Massachusetts, is the oldest college in the United States.',
   ],
   VT: [
-    'Vermont has more than a hundred old covered bridges.',
+    'Rudyard Kipling wrote The Jungle Book, the story of Mowgli, while living in Vermont.',
     'For fourteen years, Vermont was its own little country before it joined the United States.',
     'A farmer in Vermont, Wilson Bentley, took the first ever photograph of a single snowflake.',
   ],
@@ -676,7 +676,7 @@ const SEA_FACTS = {
     'In 1928, a pilot named Charles Kingsford Smith made the first flight across the Tasman Sea.',
   ],
   'persian-gulf': [
-    'In Bahrain, an island country in the Persian Gulf, a single tree called the Tree of Life grows all alone in the desert.',
+    'In the Arabian Nights, Sinbad the Sailor sets out from Basra, at the top of the Persian Gulf.',
     'The ancient Sumerians told of Dilmun, a magical land in the gulf where no one grew old.',
     'Gentle sea cows called dugongs graze on sea grass in the Persian Gulf.',
   ],

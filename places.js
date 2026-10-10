@@ -49,7 +49,7 @@ const SEA_SETS = [
   ],
   [
     ['aegean-sea', 'the Aegean Sea', 'The Aegean Sea is full of Greek islands. In the myths, it is named after King Aegeus, the father of Theseus.'],
-    ['arabian-sea', 'the Arabian Sea', 'The Arabian Sea is part of the Indian Ocean, between Arabia and India. Sailors have crossed it for thousands of years.'],
+    ['arabian-sea', 'the Arabian Sea', 'The Arabian Sea is part of the Indian Ocean, where the stories of Sinbad the Sailor are set.'],
     ['south-china-sea', 'the South China Sea', 'The South China Sea is a big sea in Asia, with hundreds of tiny islands and reefs.'],
     ['sea-of-japan', 'the Sea of Japan', 'The Sea of Japan is between Japan and the mainland of Asia.'],
     ['coral-sea', 'the Coral Sea', 'The Coral Sea has the Great Barrier Reef, the biggest coral reef in the world.'],
